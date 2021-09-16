@@ -1,9 +1,10 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 let schema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "ref",
       required: true,
     },
     title: {
@@ -30,7 +31,7 @@ let schema = new mongoose.Schema(
       validate: [
         {
           validator: Number.isInteger,
-          msg: "maxPostions should be an integer",
+          msg: "maxPositions should be an integer",
         },
         {
           validator: function (value) {
@@ -87,7 +88,7 @@ let schema = new mongoose.Schema(
         },
       ],
     },
-    skillsets: [String],
+    skillSets: [String],
     jobType: {
       type: String,
       required: true,
@@ -105,10 +106,10 @@ let schema = new mongoose.Schema(
     salary: {
       type: Number,
       validate: [
-        {
-          validator: Number.isInteger,
-          msg: "Salary should be an integer",
-        },
+        // {
+        //   validator: Number.isInteger,
+        //   msg: "Salary should be an integer",
+        // },
         {
           validator: function (value) {
             return value >= 0;
@@ -132,4 +133,6 @@ let schema = new mongoose.Schema(
   { collation: { locale: "en" } }
 );
 
-module.exports = mongoose.model("jobs", schema);
+const Job = mongoose.model("jobs", schema);
+
+export default Job;

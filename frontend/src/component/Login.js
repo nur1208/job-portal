@@ -69,12 +69,12 @@ const Login = (props) => {
   };
 
   const handleLogin = () => {
+    console.log({ inputErrorHandler });
+    console.log({ loginDetails });
+
     const verified = !Object.keys(inputErrorHandler).some(
       (obj) => {
-        return (
-          inputErrorHandler[obj].error ||
-          !inputErrorHandler[obj].message
-        );
+        return inputErrorHandler[obj].error || !loginDetails[obj];
       }
     );
     if (verified) {

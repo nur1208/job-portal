@@ -5,6 +5,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import { existsSync, mkdirSync } from "fs";
 import userRouter from "./routes/userRoutes.js";
+import jobRouter from "./routes/jobRouter.js";
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use(cors("http://localhost:3001"));
 
 // Routing
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/jobs", jobRouter);
 // app.use("/api", require("./routes/apiRoutes"));
 // app.use("/upload", require("./routes/uploadRoutes"));
 // app.use("/host", require("./routes/downloadRoutes"));

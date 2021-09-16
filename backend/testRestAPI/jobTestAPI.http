@@ -1,0 +1,24 @@
+@port = 5050
+@Host =  http://localhost
+
+@route = api/v1/jobs
+
+@benUserToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDFiNjBlYzkwYWU5MTQ0OGY0Mzc5YiIsImlhdCI6MTYzMTcwMzIwMywiZXhwIjoxNjMyMTM1MjAzfQ.HF9jg1TtUY02Z3pjjIntHPnBiUSLHWpIqSgJLSCIwng
+
+@recruiterToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDFiNmFiYzkwYWU5MTQ0OGY0MzdhMCIsImlhdCI6MTYzMTcwNDI0OCwiZXhwIjoxNjMyMTM2MjQ4fQ.FFEVmkoJnYDlxaGxexpKuIYkvGPm4tq5r9VsHdgJlSk
+###
+
+POST {{Host}}:{{port}}/{{route}}
+Content-Type: application/json
+Authorization: Bearer {{recruiterToken}}
+
+{
+    "title": "Full Stack Intern",
+    "maxApplicants": 5,
+    "maxPositions": 3,
+    "deadline": "2022-02-20T18:17:24.519Z",
+    "skillsets": ["ReactJS", "NodeJS", "Express"],
+    "jobType": "Internship",
+    "duration": 5,
+    "salary": 4500
+}

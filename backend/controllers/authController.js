@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { promisify } from "util";
 import JobApplicant from "../db/JobApplicant.js";
 import Recruiter from "../db/Recruiter.js";
 import User from "../db/User.js";
@@ -89,4 +90,64 @@ export const login = async (req, res) => {
   } catch (err) {
     res.status(500).send({ err });
   }
+};
+
+export const isJWTAuth = async (req, res, next) => {
+  let token;
+  // console.log(`here`);
+
+  // 1 getting token and check if it's there
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token) {
+    res.status(401).json({
+      status: "fall",
+      message:
+        "you are not logged in! Please log in to get access",
+    });
+
+    console.log({
+      status: "fall",
+      message:
+        "you are not logged in! Please log in to get access",
+    });
+
+    return;
+  }
+  // 2 verification token
+  const decode = await promisify(jwt.verify)(
+    token,
+
+    // eslint-disable-next-line no-undef
+    process.env.SECRET_KEY
+  );
+
+  // 3 check if user still exists
+  const currentUser = await User.findById(decode.id);
+  // if the user delete after we send him a token
+  // and before the token expired
+  if (!currentUser) {
+    res.status(401).json({
+      status: "fall",
+      message:
+        "The user belonging to this token does no longer exist",
+    });
+
+    console.log({
+      status: "fall",
+      message:
+        "The user belonging to this token does no longer exist",
+    });
+  }
+
+  console.log({ currentUser });
+
+  // grant access to protected route
+  req.user = currentUser;
+  next();
 };
