@@ -250,16 +250,52 @@ export const getAllJobs = async (req, res) => {
   } catch (error) {
     res.status(400).json({ status: "fall", error });
   }
+};
 
-  // Job.aggregate(arr)
-  //   .then((posts) => {
-  //     if (posts == null) {
-  //       res.status(404).json({
-  //         message: "No job found",
+export const deleteJob = async (req, res) => {
+  const { user } = req;
+
+  if (user.type != "recruiter") {
+    res.status(401).json({
+      status: "fall",
+      message: "You don't have permissions to delete the job",
+    });
+    return;
+  }
+
+  // recruiter can only delete has job (the jobs that he posted)
+  const job = await Job.findOneAndDelete({
+    _id: req.params.id,
+    userId: user.id,
+  });
+
+  if (job === null) {
+    res.status(401).json({
+      status: "fall",
+      message: "You don't have permissions to delete the job",
+    });
+    return;
+  }
+
+  res.json({
+    status: "success",
+    message: "Job deleted successfully",
+  });
+
+  // Job.findOneAndDelete({
+  //   _id: req.params.id,
+  //   userId: user.id,
+  // })
+  //   .then((job) => {
+  //     if (job === null) {
+  //       res.status(401).json({
+  //         message: "You don't have permissions to delete the job",
   //       });
   //       return;
   //     }
-  //     res.json(posts);
+  //     res.json({
+  //       message: "Job deleted successfully",
+  //     });
   //   })
   //   .catch((err) => {
   //     res.status(400).json(err);

@@ -27,3 +27,8 @@ Authorization: Bearer {{recruiterToken}}
 
 GET {{Host}}:{{port}}/{{route}}
 Authorization: Bearer {{benUserToken}}
+
+###
+
+DELETE  {{Host}}:{{port}}/{{route}}/61429437d8961d1cc88a0246
+Authorization: Bearer {{recruiterToken}}
