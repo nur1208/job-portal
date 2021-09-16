@@ -12,3 +12,18 @@
 
 GET {{Host}}:{{port}}/{{route}}
 Authorization: Bearer {{recruiterToken}}
+
+
+###
+
+GET {{Host}}:{{port}}/{{route}}/6141b60ec90ae91448f4379b
+Authorization: Bearer {{recruiterToken}}
+
+###
+PUT {{Host}}:{{port}}/{{route}}
+Content-Type: application/json
+Authorization: Bearer {{recruiterToken}}
+
+{
+    "name":"nena2"
+}

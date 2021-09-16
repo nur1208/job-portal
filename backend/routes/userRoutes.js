@@ -4,7 +4,11 @@ import {
   login,
   signUp,
 } from "../controllers/authController.js";
-import { me } from "../controllers/userController.js";
+import {
+  getUser,
+  me,
+  updateUser,
+} from "../controllers/userController.js";
 
 const userRouter = Router();
 
@@ -12,8 +16,12 @@ userRouter.post("/signup", signUp);
 
 userRouter.post("/login", login);
 
-userRouter.route("/").get(isJWTAuth, me);
+// all the routes after this for only authenticated users
+userRouter.use(isJWTAuth);
 
+userRouter.route("/").get(me).put(updateUser);
+
+userRouter.route("/:id").get(getUser);
 export default userRouter;
 
 // module.exports = router;
