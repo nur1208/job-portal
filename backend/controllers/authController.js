@@ -63,14 +63,10 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email }).select("+password");
     !user && res.status(401).json("Wrong password or username!");
 
-    console.log({ user });
-
     const isCorrectPassword = await user.isCorrectPassword(
       password,
       user.password
     );
-
-    console.log({ isCorrectPassword });
 
     !isCorrectPassword &&
       res.status(401).json("Wrong password or username!");
@@ -86,7 +82,7 @@ export const login = async (req, res) => {
     // eslint-disable-next-line no-unused-vars
     const { __v, ...info } = user._doc;
 
-    res.status(200).json({ ...info, accessToken });
+    res.status(200).json({ ...info, token: accessToken });
   } catch (err) {
     res.status(500).send({ err });
   }
@@ -104,7 +100,7 @@ export const isJWTAuth = async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
 
-  if (!token) {
+  if (!token || token === "undefined") {
     res.status(401).json({
       status: "fall",
       message:

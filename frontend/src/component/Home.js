@@ -75,7 +75,9 @@ const JobTile = (props) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem(
+              "token"
+            )}`,
           },
         }
       )
@@ -108,19 +110,24 @@ const JobTile = (props) => {
             <Typography variant="h5">{job.title}</Typography>
           </Grid>
           <Grid item>
-            <Rating value={job.rating !== -1 ? job.rating : null} readOnly />
+            <Rating
+              value={job.rating !== -1 ? job.rating : null}
+              readOnly
+            />
           </Grid>
           <Grid item>Role : {job.jobType}</Grid>
           <Grid item>Salary : &#8377; {job.salary} per month</Grid>
           <Grid item>
             Duration :{" "}
-            {job.duration !== 0 ? `${job.duration} month` : `Flexible`}
+            {job.duration !== 0
+              ? `${job.duration} month`
+              : `Flexible`}
           </Grid>
           <Grid item>Posted By : {job.recruiter.name}</Grid>
           <Grid item>Application Deadline : {deadline}</Grid>
 
           <Grid item>
-            {job.skillsets.map((skill) => (
+            {job.skillSets.map((skill) => (
               <Chip label={skill} style={{ marginRight: "2px" }} />
             ))}
           </Grid>
@@ -139,7 +146,11 @@ const JobTile = (props) => {
           </Button>
         </Grid>
       </Grid>
-      <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        className={classes.popupDialog}
+      >
         <Paper
           style={{
             padding: "20px",
@@ -184,9 +195,19 @@ const JobTile = (props) => {
 
 const FilterPopup = (props) => {
   const classes = useStyles();
-  const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
+  const {
+    open,
+    handleClose,
+    searchOptions,
+    setSearchOptions,
+    getData,
+  } = props;
   return (
-    <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      className={classes.popupDialog}
+    >
       <Paper
         style={{
           padding: "50px",
@@ -194,7 +215,12 @@ const FilterPopup = (props) => {
           minWidth: "50%",
         }}
       >
-        <Grid container direction="column" alignItems="center" spacing={3}>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          spacing={3}
+        >
           <Grid container item alignItems="center">
             <Grid item xs={3}>
               Job Type
@@ -217,7 +243,8 @@ const FilterPopup = (props) => {
                           ...searchOptions,
                           jobType: {
                             ...searchOptions.jobType,
-                            [event.target.name]: event.target.checked,
+                            [event.target.name]:
+                              event.target.checked,
                           },
                         });
                       }}
@@ -237,7 +264,8 @@ const FilterPopup = (props) => {
                           ...searchOptions,
                           jobType: {
                             ...searchOptions.jobType,
-                            [event.target.name]: event.target.checked,
+                            [event.target.name]:
+                              event.target.checked,
                           },
                         });
                       }}
@@ -257,7 +285,8 @@ const FilterPopup = (props) => {
                           ...searchOptions,
                           jobType: {
                             ...searchOptions.jobType,
-                            [event.target.name]: event.target.checked,
+                            [event.target.name]:
+                              event.target.checked,
                           },
                         });
                       }}
@@ -332,7 +361,10 @@ const FilterPopup = (props) => {
                 xs={4}
                 justify="space-around"
                 alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
+                style={{
+                  border: "1px solid #D1D1D1",
+                  borderRadius: "5px",
+                }}
               >
                 <Grid item>
                   <Checkbox
@@ -388,7 +420,10 @@ const FilterPopup = (props) => {
                 xs={4}
                 justify="space-around"
                 alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
+                style={{
+                  border: "1px solid #D1D1D1",
+                  borderRadius: "5px",
+                }}
               >
                 <Grid item>
                   <Checkbox
@@ -424,7 +459,8 @@ const FilterPopup = (props) => {
                           ...searchOptions.sort,
                           duration: {
                             ...searchOptions.sort.duration,
-                            desc: !searchOptions.sort.duration.desc,
+                            desc: !searchOptions.sort.duration
+                              .desc,
                           },
                         },
                       });
@@ -444,7 +480,10 @@ const FilterPopup = (props) => {
                 xs={4}
                 justify="space-around"
                 alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
+                style={{
+                  border: "1px solid #D1D1D1",
+                  borderRadius: "5px",
+                }}
               >
                 <Grid item>
                   <Checkbox
@@ -558,22 +597,28 @@ const Home = (props) => {
       searchParams = [...searchParams, `jobType=Part%20Time`];
     }
     if (searchOptions.jobType.wfh) {
-      searchParams = [...searchParams, `jobType=Work%20From%20Home`];
+      searchParams = [
+        ...searchParams,
+        `jobType=Work%20From%20Home`,
+      ];
     }
-    if (searchOptions.salary[0] != 0) {
+    if (searchOptions.salary[0] !== 0) {
       searchParams = [
         ...searchParams,
         `salaryMin=${searchOptions.salary[0] * 1000}`,
       ];
     }
-    if (searchOptions.salary[1] != 100) {
+    if (searchOptions.salary[1] !== 100) {
       searchParams = [
         ...searchParams,
         `salaryMax=${searchOptions.salary[1] * 1000}`,
       ];
     }
-    if (searchOptions.duration != "0") {
-      searchParams = [...searchParams, `duration=${searchOptions.duration}`];
+    if (searchOptions.duration !== "0") {
+      searchParams = [
+        ...searchParams,
+        `duration=${searchOptions.duration}`,
+      ];
     }
 
     let asc = [],
@@ -604,17 +649,19 @@ const Home = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(response.data.data);
+        // don't show job that their deadline ended
         setJobs(
-          response.data.filter((obj) => {
+          response.data.data.filter((obj) => {
             const today = new Date();
             const deadline = new Date(obj.deadline);
             return deadline > today;
           })
         );
+        // setJobs(response.data.data);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        // console.log(err.response.data);
         setPopup({
           open: true,
           severity: "error",
@@ -690,7 +737,10 @@ const Home = (props) => {
               return <JobTile job={job} />;
             })
           ) : (
-            <Typography variant="h5" style={{ textAlign: "center" }}>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center" }}
+            >
               No jobs found
             </Typography>
           )}

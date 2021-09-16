@@ -22,3 +22,8 @@ Authorization: Bearer {{recruiterToken}}
     "duration": 5,
     "salary": 4500
 }
+
+###
+
+GET {{Host}}:{{port}}/{{route}}
+Authorization: Bearer {{benUserToken}}
