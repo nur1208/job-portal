@@ -1,3 +1,4 @@
+import Application from "../db/Application.js";
 import Job from "../db/Job.js";
 
 export const createJob = async (req, res) => {
@@ -281,23 +282,226 @@ export const deleteJob = async (req, res) => {
     status: "success",
     message: "Job deleted successfully",
   });
+};
 
-  // Job.findOneAndDelete({
-  //   _id: req.params.id,
-  //   userId: user.id,
+export const applyForJob = async (req, res) => {
+  const { user } = req;
+  if (user.type !== "applicant") {
+    res.status(401).json({
+      message: "You don't have permissions to apply for a job",
+    });
+    return;
+  }
+  const data = req.body;
+  const jobId = req.params.id;
+
+  // check whether applied previously
+  // find job
+  // check count of active applications < limit
+  // check user had < 10 active applications && check if user is not having any accepted jobs (user id)
+  // store the data in applications
+
+  // 1) check whether applied previously
+
+  // finding application with jobId and the logged in user
+  // and the job still available
+
+  try {
+    const appliedApplication = await Application.findOne({
+      userId: user._id,
+      jobId: jobId,
+      status: {
+        $nin: ["deleted", "accepted", "cancelled"],
+      },
+    });
+
+    // if the user already applied for the job send him and error message
+    if (appliedApplication !== null) {
+      res.status(400).json({
+        status: "fall",
+        message: "You have already applied for this job",
+      });
+      return;
+    }
+
+    // 2) find job
+    const job = await Job.findOne({ _id: jobId });
+
+    if (job === null) {
+      res.status(404).json({
+        message: "Job does not exist",
+      });
+      return;
+    }
+
+    // 3) check count of active applications < limit
+    const activeApplicationCount =
+      await Application.countDocuments({
+        jobId: jobId,
+        status: {
+          $nin: ["rejected", "deleted", "cancelled", "finished"],
+        },
+      });
+
+    if (activeApplicationCount < job.maxApplicants) {
+      const myActiveApplicationCount =
+        await Application.countDocuments({
+          userId: user._id,
+          status: {
+            $nin: ["rejected", "deleted", "cancelled", "finished"],
+          },
+        });
+
+      if (myActiveApplicationCount < 10) {
+        const acceptedJobs = await Application.countDocuments({
+          userId: user._id,
+          status: "accepted",
+        });
+
+        if (acceptedJobs === 0) {
+          const application = new Application({
+            userId: user._id,
+            recruiterId: job.userId,
+            jobId: job._id,
+            status: "applied",
+            sop: data.sop,
+          });
+
+          await application.save();
+
+          res.json({
+            status: "success",
+            message: "Job application successful",
+          });
+        } else {
+          res.status(400).json({
+            status: "fall",
+            message:
+              "You already have an accepted job. Hence you cannot apply.",
+          });
+        }
+      } else {
+        res.status(400).json({
+          status: "fall",
+          message:
+            "You have 10 active applications. Hence you cannot apply.",
+        });
+      }
+    } else {
+      res.status(400).json({
+        status: "fall",
+        message: "Application limit reached",
+      });
+    }
+  } catch (error) {
+    res.json(400).json({ status: "fall", error });
+  }
+
+  // Application.findOne({
+  //   userId: user._id,
+  //   jobId: jobId,
+  //   status: {
+  //     $nin: ["deleted", "accepted", "cancelled"],
+  //   },
   // })
-  //   .then((job) => {
-  //     if (job === null) {
-  //       res.status(401).json({
-  //         message: "You don't have permissions to delete the job",
+  //   .then((appliedApplication) => {
+  //     console.log(appliedApplication);
+  //     if (appliedApplication !== null) {
+  //       res.status(400).json({
+  //         message: "You have already applied for this job",
   //       });
   //       return;
   //     }
-  //     res.json({
-  //       message: "Job deleted successfully",
-  //     });
+
+  //     Job.findOne({ _id: jobId })
+  //       .then((job) => {
+  //         if (job === null) {
+  //           res.status(404).json({
+  //             message: "Job does not exist",
+  //           });
+  //           return;
+  //         }
+  //         Application.countDocuments({
+  //           jobId: jobId,
+  //           status: {
+  //             $nin: [
+  //               "rejected",
+  //               "deleted",
+  //               "cancelled",
+  //               "finished",
+  //             ],
+  //           },
+  //         })
+  //           .then((activeApplicationCount) => {
+  //             if (activeApplicationCount < job.maxApplicants) {
+  //               Application.countDocuments({
+  //                 userId: user._id,
+  //                 status: {
+  //                   $nin: [
+  //                     "rejected",
+  //                     "deleted",
+  //                     "cancelled",
+  //                     "finished",
+  //                   ],
+  //                 },
+  //               })
+  //                 .then((myActiveApplicationCount) => {
+  //                   if (myActiveApplicationCount < 10) {
+  //                     Application.countDocuments({
+  //                       userId: user._id,
+  //                       status: "accepted",
+  //                     }).then((acceptedJobs) => {
+  //                       if (acceptedJobs === 0) {
+  //                         const application = new Application({
+  //                           userId: user._id,
+  //                           recruiterId: job.userId,
+  //                           jobId: job._id,
+  //                           status: "applied",
+  //                           sop: data.sop,
+  //                         });
+  //                         application
+  //                           .save()
+  //                           .then(() => {
+  //                             res.json({
+  //                               message:
+  //                                 "Job application successful",
+  //                             });
+  //                           })
+  //                           .catch((err) => {
+  //                             res.status(400).json(err);
+  //                           });
+  //                       } else {
+  //                         res.status(400).json({
+  //                           message:
+  //                             "You already have an accepted job. Hence you cannot apply.",
+  //                         });
+  //                       }
+  //                     });
+  //                   } else {
+  //                     res.status(400).json({
+  //                       message:
+  //                         "You have 10 active applications. Hence you cannot apply.",
+  //                     });
+  //                   }
+  //                 })
+  //                 .catch((err) => {
+  //                   res.status(400).json(err);
+  //                 });
+  //             } else {
+  //               res.status(400).json({
+  //                 message: "Application limit reached",
+  //               });
+  //             }
+  //           })
+  //           .catch((err) => {
+  //             res.status(400).json(err);
+  //           });
+  //       })
+  //       .catch((err) => {
+  //         res.status(400).json(err);
+  //       });
   //   })
   //   .catch((err) => {
-  //     res.status(400).json(err);
+  //     res.json(400).json(err);
   //   });
 };

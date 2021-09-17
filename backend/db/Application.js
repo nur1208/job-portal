@@ -1,17 +1,20 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 let schema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     recruiterId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Recruiter",
       required: true,
     },
     jobId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
       required: true,
     },
     status: {
@@ -47,7 +50,9 @@ let schema = new mongoose.Schema(
       type: String,
       validate: {
         validator: function (v) {
-          return v.split(" ").filter((ele) => ele != "").length <= 250;
+          return (
+            v.split(" ").filter((ele) => ele != "").length <= 250
+          );
         },
         msg: "Statement of purpose should not be greater than 250 words",
       },
@@ -77,4 +82,6 @@ let schema = new mongoose.Schema(
 //   justOne: true,
 // });
 
-module.exports = mongoose.model("applications", schema);
+const Application = mongoose.model("applications", schema);
+
+export default Application;

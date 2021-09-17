@@ -1,6 +1,7 @@
 import express from "express";
 import { isJWTAuth } from "../controllers/authController.js";
 import {
+  applyForJob,
   createJob,
   deleteJob,
   getAllJobs,
@@ -15,5 +16,7 @@ jobRouter
   .get(isJWTAuth, getAllJobs);
 
 jobRouter.route("/:id").delete(isJWTAuth, deleteJob);
+
+jobRouter.post("/:id/applications", isJWTAuth, applyForJob);
 
 export default jobRouter;
