@@ -5,6 +5,7 @@ import {
   signUp,
 } from "../controllers/authController.js";
 import {
+  getAllApplicants,
   getUser,
   me,
   updateUser,
@@ -22,6 +23,8 @@ userRouter.use(isJWTAuth);
 userRouter.route("/").get(me).put(updateUser);
 
 userRouter.route("/:id").get(getUser);
+
+userRouter.route("/applicants").get(getAllApplicants);
 export default userRouter;
 
 // module.exports = router;

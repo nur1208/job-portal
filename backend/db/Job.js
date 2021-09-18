@@ -89,6 +89,7 @@ let schema = new mongoose.Schema(
       ],
     },
     skillSets: [String],
+    // TODO jobType must only be [Internship, full job, part job]
     jobType: {
       type: String,
       required: true,

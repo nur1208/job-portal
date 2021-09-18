@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+import Application from "../db/Application.js";
 import JobApplicant from "../db/JobApplicant.js";
 import Recruiter from "../db/Recruiter.js";
 import User from "../db/User.js";
@@ -159,6 +161,131 @@ export const updateUser = async (req, res) => {
         status: "success",
         message: "user update successfully",
         data: updatedJobApplicant,
+      });
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+// get a list of final applicants for current job : recruiter
+// get a list of final applicants for all his jobs : recruiter
+export const getAllApplicants = async (req, res) => {
+  const { user } = req;
+
+  try {
+    // check if the user is recruiter
+    if (user.type === "recruiter") {
+      // add the uer id to findParams
+      let findParams = {
+        recruiterId: user._id,
+      };
+      // if there is jobId add it to the findParams
+      // this is very smart way to get all the applicants
+      // or just applicants for specific job
+      if (req.query.jobId) {
+        findParams = {
+          ...findParams,
+          jobId: new mongoose.Types.ObjectId(req.query.jobId),
+        };
+      }
+
+      // if there is one status or more status
+      //  TODO create apiFilter class
+      if (req.query.status) {
+        // more
+        if (Array.isArray(req.query.status)) {
+          findParams = {
+            ...findParams,
+            status: { $in: req.query.status },
+          };
+          // one
+        } else {
+          findParams = {
+            ...findParams,
+            status: req.query.status,
+          };
+        }
+      }
+      // for adding sort parameters
+      let sortParams = {};
+
+      // if there is no asc and desc query for sorting the output
+      // then just sort them with id ascending
+      if (!req.query.asc && !req.query.desc) {
+        sortParams = { _id: 1 };
+      }
+
+      // if there is ascending query
+      // for example asc=name
+      // [key]:1 = ["name"]:1 = name:1
+      if (req.query.asc) {
+        if (Array.isArray(req.query.asc)) {
+          req.query.asc.map((key) => {
+            sortParams = {
+              ...sortParams,
+              [key]: 1,
+            };
+          });
+        } else {
+          sortParams = {
+            ...sortParams,
+            [req.query.asc]: 1,
+          };
+        }
+      }
+
+      // if there is descending query
+      // for example desc=name
+      // [key]:1 = ["name"]:1 = name:1
+      if (req.query.desc) {
+        if (Array.isArray(req.query.desc)) {
+          req.query.desc.map((key) => {
+            sortParams = {
+              ...sortParams,
+              [key]: -1,
+            };
+          });
+        } else {
+          sortParams = {
+            ...sortParams,
+            [req.query.desc]: -1,
+          };
+        }
+      }
+
+      const applications = await Application.aggregate([
+        {
+          $lookup: {
+            from: "jobapplicantinfos",
+            localField: "userId",
+            foreignField: "userId",
+            as: "jobApplicant",
+          },
+        },
+        { $unwind: "$jobApplicant" },
+        {
+          $lookup: {
+            from: "jobs",
+            localField: "jobId",
+            foreignField: "_id",
+            as: "job",
+          },
+        },
+        { $unwind: "$job" },
+        { $match: findParams },
+        { $sort: sortParams },
+      ]);
+
+      if (applications.length === 0) {
+        res.status(404).json({
+          message: "No applicants found",
+        });
+        return;
+      }
+      res.json(applications);
+    } else {
+      res.status(400).json({
+        message: "You are not allowed to access applicants list",
       });
     }
   } catch (error) {
