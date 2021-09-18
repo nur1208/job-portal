@@ -302,3 +302,27 @@ export const addUpdateRating = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+export const getPersonalRating = async (req, res) => {
+  const { user } = req;
+
+  try {
+    const rating = await Rating.findOne({
+      senderId: user._id,
+      receiverId: req.query.id,
+      category: user.type === "recruiter" ? "applicant" : "job",
+    });
+
+    if (rating === null) {
+      res.json({
+        rating: -1,
+      });
+      return;
+    }
+    res.json({
+      rating: rating.rating,
+    });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
