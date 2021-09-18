@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 let schema = new mongoose.Schema(
   {
@@ -30,6 +30,12 @@ let schema = new mongoose.Schema(
   { collation: { locale: "en" } }
 );
 
-schema.index({ category: 1, receiverId: 1, senderId: 1 }, { unique: true });
+// crate something like primary key
+schema.index(
+  { category: 1, receiverId: 1, senderId: 1 },
+  { unique: true }
+);
 
-module.exports = mongoose.model("ratings", schema);
+const Rating = mongoose.model("Rating", schema);
+
+export default Rating;
