@@ -505,3 +505,278 @@ export const applyForJob = async (req, res) => {
   //     res.json(400).json(err);
   //   });
 };
+
+// recruiter gets applications for a particular job [pagination]
+export const getAllJobApplications = async (req, res) => {
+  const { user } = req;
+  // refactor this code.
+  if (user.type != "recruiter") {
+    res.status(401).json({
+      message:
+        "You don't have permissions to view job applications",
+    });
+    return;
+  }
+  const jobId = req.params.id;
+
+  // const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
+  // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
+  // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
+
+  let findParams = {
+    jobId: jobId,
+    recruiterId: user._id,
+  };
+
+  let sortParams = {};
+
+  if (req.query.status) {
+    findParams = {
+      ...findParams,
+      status: req.query.status,
+    };
+  }
+
+  try {
+    const applications = await Application.find(findParams)
+      .collation({ locale: "en" })
+      .sort(sortParams);
+
+    res.json(applications);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const getAllRecruiterApplications = async (req, res) => {
+  const { user } = req;
+
+  // const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
+  // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
+  // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
+
+  // TODO reread the following conde;
+
+  try {
+    const applications = await Application.aggregate([
+      {
+        $lookup: {
+          from: "jobapplicantinfos",
+          localField: "userId",
+          foreignField: "userId",
+          as: "jobApplicant",
+        },
+      },
+      { $unwind: "$jobApplicant" },
+      {
+        $lookup: {
+          from: "jobs",
+          localField: "jobId",
+          foreignField: "_id",
+          as: "job",
+        },
+      },
+      { $unwind: "$job" },
+      {
+        $lookup: {
+          from: "recruiters",
+          localField: "recruiterId",
+          foreignField: "userId",
+          as: "recruiter",
+        },
+      },
+      { $unwind: "$recruiter" },
+      {
+        $match: {
+          [user.type === "recruiter" ? "recruiterId" : "userId"]:
+            user._id,
+        },
+      },
+      {
+        $sort: {
+          dateOfApplication: -1,
+        },
+      },
+    ]);
+
+    res.json(applications);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const updateApplications = async (req, res) => {
+  const { user } = req;
+  const { id } = req.params;
+  const { status } = req.body;
+
+  // "applied", // when a applicant is applied
+  // "shortlisted", // when a applicant is shortlisted
+  // "accepted", // when a applicant is accepted
+  // "rejected", // when a applicant is rejected
+  // "deleted", // when any job is deleted
+  // "cancelled", // an application is cancelled by its author or when other application is accepted
+  // "finished", // when job is over
+
+  try {
+    if (user.type === "recruiter") {
+      // accepted
+      if (status === "accepted") {
+        // get job id from application
+        // get job info for maxPositions count
+        // count applications that are already accepted
+        // compare and if condition is satisfied, then save
+
+        const application = await Application.findOne({
+          _id: id,
+          recruiterId: user._id,
+        });
+
+        if (application === null) {
+          res.status(404).json({
+            message: "Application not found",
+          });
+          return;
+        }
+
+        // make sure that the job has been not delete
+        const job = await Job.findOne({
+          _id: application.jobId,
+          userId: user._id,
+        });
+
+        if (job === null) {
+          res.status(404).json({
+            status: "fall",
+            message: "Job does not exist",
+          });
+          return;
+        }
+
+        const activeApplicationCount =
+          await Application.countDocuments({
+            recruiterId: user._id,
+            jobId: job._id,
+            status: "accepted",
+          });
+
+        if (activeApplicationCount < job.maxPositions) {
+          // accepted
+          application.status = status;
+          application.dateOfJoining = req.body.dateOfJoining;
+
+          await application.save();
+
+          // delete all the other application that the accepted user
+          // apply to them.
+          Application.updateMany(
+            {
+              _id: {
+                $ne: application._id,
+              },
+              userId: application.userId,
+              status: {
+                $nin: [
+                  "rejected",
+                  "deleted",
+                  "cancelled",
+                  "accepted",
+                  "finished",
+                ],
+              },
+            },
+            {
+              $set: {
+                status: "cancelled",
+              },
+            },
+            { multi: true }
+          );
+          //TODO  the following if state not necessary
+          if (status === "accepted") {
+            await Job.findOneAndUpdate(
+              {
+                _id: job._id,
+                userId: user._id,
+              },
+              {
+                $set: {
+                  acceptedCandidates: activeApplicationCount + 1,
+                },
+              }
+            );
+
+            res.json({
+              message: `Application ${status} successfully`,
+            });
+          }
+        } else {
+          res.status(400).json({
+            message:
+              "All positions for this job are already filled",
+          });
+        }
+      } else {
+        // not rejected not deleted not canceled and not accepted
+        // the status value (shortlisted, finished)
+        const application = await Application.findOneAndUpdate(
+          {
+            _id: id,
+            recruiterId: user._id,
+            status: {
+              $nin: ["rejected", "deleted", "cancelled"],
+            },
+          },
+          {
+            $set: {
+              status: status,
+            },
+          }
+        );
+
+        if (application === null) {
+          res.status(400).json({
+            message: "Application status cannot be updated",
+          });
+          return;
+        }
+
+        if (status === "finished") {
+          res.json({
+            message: `Job ${status} successfully`,
+          });
+        } else {
+          res.json({
+            message: `Application ${status} successfully`,
+          });
+        }
+      }
+      // not recruiter for applicant
+    } else {
+      if (status === "cancelled") {
+        await Application.findOneAndUpdate(
+          {
+            _id: id,
+            userId: user._id,
+          },
+          {
+            $set: {
+              status: status,
+            },
+          }
+        );
+
+        res.json({
+          message: `Application ${status} successfully`,
+        });
+      } else {
+        res.status(401).json({
+          message:
+            "You don't have permissions to update job status",
+        });
+      }
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
