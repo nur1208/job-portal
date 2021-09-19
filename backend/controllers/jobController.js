@@ -53,6 +53,8 @@ export const getAllJobs = async (req, res) => {
   // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
   // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
 
+  // console.log({ query: req.query });
+
   // to list down jobs posted by a particular recruiter
   if (user.type === "recruiter" && req.query.myJobs) {
     findParams = {
@@ -75,13 +77,14 @@ export const getAllJobs = async (req, res) => {
   if (req.query.jobType) {
     let jobTypes = [];
     // if jobType array, the user passed more than one jobType to filter out.
+
     if (Array.isArray(req.query.jobType)) {
       jobTypes = req.query.jobType;
       // else if only there is one jobType to filter out.
     } else {
       jobTypes = [req.query.jobType];
     }
-    console.log(jobTypes);
+    console.log({ jobTypes });
     // adding jobType or jobTypes to filter (findParams)
     findParams = {
       ...findParams,
@@ -178,8 +181,8 @@ export const getAllJobs = async (req, res) => {
     }
   }
 
-  console.log(findParams);
-  console.log(sortParams);
+  // console.log({ findParams });
+  // /  console.log({ sortParams });
 
   // Job.find(findParams).collation({ locale: "en" }).sort(sortParams);
   // .skip(skip)
@@ -227,7 +230,7 @@ export const getAllJobs = async (req, res) => {
     ];
   }
 
-  console.log(arr);
+  // console.log(arr);
 
   // add the arr of aggregation stages to aggregation function
   // TODO  find way to unselect recruiter
@@ -240,7 +243,7 @@ export const getAllJobs = async (req, res) => {
       results: jobs.length,
       data: jobs,
     });
-    console.log({ jobs });
+    // console.log({ jobs });
 
     if (jobs === null) {
       res.status(404).json({

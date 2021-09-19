@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
-import { existsSync, mkdirSync } from "fs";
+// import { existsSync, mkdirSync } from "fs";
 import userRouter from "./routes/userRoutes.js";
 import jobRouter from "./routes/jobRouter.js";
 import ratingRouter from "./routes/ratingRouter.js";

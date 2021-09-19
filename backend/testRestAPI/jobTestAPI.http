@@ -6,21 +6,24 @@
 @benUserToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDFiNjBlYzkwYWU5MTQ0OGY0Mzc5YiIsImlhdCI6MTYzMTcwMzIwMywiZXhwIjoxNjMyMTM1MjAzfQ.HF9jg1TtUY02Z3pjjIntHPnBiUSLHWpIqSgJLSCIwng
 
 @recruiterToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDFiNmFiYzkwYWU5MTQ0OGY0MzdhMCIsImlhdCI6MTYzMTcwNDI0OCwiZXhwIjoxNjMyMTM2MjQ4fQ.FFEVmkoJnYDlxaGxexpKuIYkvGPm4tq5r9VsHdgJlSk
+
+@recruiter2Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDY4YWM3Yjc0OTRjMzRiNDhkYzI4ZiIsImlhdCI6MTYzMjAxMzE1MywiZXhwIjoxNjMyNDQ1MTUzfQ.XDWBUXz69Y47rfegNqtGX3moO3mvlGi8lWqGIvePBj8
+
 ###
 
 POST {{Host}}:{{port}}/{{route}}
 Content-Type: application/json
-Authorization: Bearer {{recruiterToken}}
+Authorization: Bearer {{recruiter2Token}}
 
 {
-    "title": "Full Stack Intern",
+    "title": "Full Stack",
     "maxApplicants": 5,
     "maxPositions": 3,
     "deadline": "2022-02-20T18:17:24.519Z",
     "skillsets": ["ReactJS", "NodeJS", "Express"],
-    "jobType": "Internship",
+    "jobType": "Full Time",
     "duration": 5,
-    "salary": 4500
+    "salary": 8500
 }
 
 ###

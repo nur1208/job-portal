@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { isJWTAuth } from "../controllers/authController";
+import { isJWTAuth } from "../controllers/authController.js";
 import {
   addUpdateRating,
   getPersonalRating,
-} from "../controllers/ratingController";
+} from "../controllers/ratingController.js";
 
 const ratingRouter = Router();
 

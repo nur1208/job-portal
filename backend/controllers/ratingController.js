@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Application from "../db/Application.js";
 import Rating from "../db/Rating.js";
-import JobApplicant from "../db/JobApplicant";
+import JobApplicant from "../db/JobApplicant.js";
 import Job from "../db/Job.js";
 
 // to add or update a rating

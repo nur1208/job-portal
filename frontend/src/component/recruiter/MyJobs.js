@@ -155,22 +155,31 @@ const JobTile = (props) => {
             <Typography variant="h5">{job.title}</Typography>
           </Grid>
           <Grid item>
-            <Rating value={job.rating !== -1 ? job.rating : null} readOnly />
+            <Rating
+              value={job.rating !== -1 ? job.rating : null}
+              readOnly
+            />
           </Grid>
           <Grid item>Role : {job.jobType}</Grid>
           <Grid item>Salary : &#8377; {job.salary} per month</Grid>
           <Grid item>
             Duration :{" "}
-            {job.duration !== 0 ? `${job.duration} month` : `Flexible`}
+            {job.duration !== 0
+              ? `${job.duration} month`
+              : `Flexible`}
           </Grid>
-          <Grid item>Date Of Posting: {postedOn.toLocaleDateString()}</Grid>
-          <Grid item>Number of Applicants: {job.maxApplicants}</Grid>
+          <Grid item>
+            Date Of Posting: {postedOn.toLocaleDateString()}
+          </Grid>
+          <Grid item>
+            Number of Applicants: {job.maxApplicants}
+          </Grid>
           <Grid item>
             Remaining Number of Positions:{" "}
             {job.maxPositions - job.acceptedCandidates}
           </Grid>
           <Grid item>
-            {job.skillsets.map((skill) => (
+            {job.skillSets.map((skill) => (
               <Chip label={skill} style={{ marginRight: "2px" }} />
             ))}
           </Grid>
@@ -181,7 +190,9 @@ const JobTile = (props) => {
               variant="contained"
               color="primary"
               className={classes.statusBlock}
-              onClick={() => handleClick(`/job/applications/${job._id}`)}
+              onClick={() =>
+                handleClick(`/job/applications/${job._id}`)
+              }
             >
               View Applications
             </Button>
@@ -215,7 +226,11 @@ const JobTile = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        className={classes.popupDialog}
+      >
         <Paper
           style={{
             padding: "20px",
@@ -227,7 +242,10 @@ const JobTile = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" style={{ marginBottom: "10px" }}>
+          <Typography
+            variant="h4"
+            style={{ marginBottom: "10px" }}
+          >
             Are you sure?
           </Typography>
           <Grid container justify="center" spacing={5}>
@@ -270,7 +288,10 @@ const JobTile = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" style={{ marginBottom: "10px" }}>
+          <Typography
+            variant="h4"
+            style={{ marginBottom: "10px" }}
+          >
             Update Details
           </Typography>
           <Grid
@@ -351,9 +372,19 @@ const JobTile = (props) => {
 
 const FilterPopup = (props) => {
   const classes = useStyles();
-  const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
+  const {
+    open,
+    handleClose,
+    searchOptions,
+    setSearchOptions,
+    getData,
+  } = props;
   return (
-    <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      className={classes.popupDialog}
+    >
       <Paper
         style={{
           padding: "50px",
@@ -361,7 +392,12 @@ const FilterPopup = (props) => {
           minWidth: "50%",
         }}
       >
-        <Grid container direction="column" alignItems="center" spacing={3}>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          spacing={3}
+        >
           <Grid container item alignItems="center">
             <Grid item xs={3}>
               Job Type
@@ -370,7 +406,8 @@ const FilterPopup = (props) => {
               container
               item
               xs={9}
-              justify="space-around"
+              justify="flex-start"
+              // gab={40}
               // alignItems="center"
             >
               <Grid item>
@@ -384,7 +421,8 @@ const FilterPopup = (props) => {
                           ...searchOptions,
                           jobType: {
                             ...searchOptions.jobType,
-                            [event.target.name]: event.target.checked,
+                            [event.target.name]:
+                              event.target.checked,
                           },
                         });
                       }}
@@ -404,7 +442,8 @@ const FilterPopup = (props) => {
                           ...searchOptions,
                           jobType: {
                             ...searchOptions.jobType,
-                            [event.target.name]: event.target.checked,
+                            [event.target.name]:
+                              event.target.checked,
                           },
                         });
                       }}
@@ -424,13 +463,35 @@ const FilterPopup = (props) => {
                           ...searchOptions,
                           jobType: {
                             ...searchOptions.jobType,
-                            [event.target.name]: event.target.checked,
+                            [event.target.name]:
+                              event.target.checked,
                           },
                         });
                       }}
                     />
                   }
                   label="Work From Home"
+                />
+              </Grid>
+              <Grid item>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="internship"
+                      checked={searchOptions.jobType.internship}
+                      onChange={(event) => {
+                        setSearchOptions({
+                          ...searchOptions,
+                          jobType: {
+                            ...searchOptions.jobType,
+                            [event.target.name]:
+                              event.target.checked,
+                          },
+                        });
+                      }}
+                    />
+                  }
+                  label="Internship"
                 />
               </Grid>
             </Grid>
@@ -499,7 +560,10 @@ const FilterPopup = (props) => {
                 xs={4}
                 justify="space-around"
                 alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
+                style={{
+                  border: "1px solid #D1D1D1",
+                  borderRadius: "5px",
+                }}
               >
                 <Grid item>
                   <Checkbox
@@ -555,7 +619,10 @@ const FilterPopup = (props) => {
                 xs={4}
                 justify="space-around"
                 alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
+                style={{
+                  border: "1px solid #D1D1D1",
+                  borderRadius: "5px",
+                }}
               >
                 <Grid item>
                   <Checkbox
@@ -591,7 +658,8 @@ const FilterPopup = (props) => {
                           ...searchOptions.sort,
                           duration: {
                             ...searchOptions.sort.duration,
-                            desc: !searchOptions.sort.duration.desc,
+                            desc: !searchOptions.sort.duration
+                              .desc,
                           },
                         },
                       });
@@ -611,7 +679,10 @@ const FilterPopup = (props) => {
                 xs={4}
                 justify="space-around"
                 alignItems="center"
-                style={{ border: "1px solid #D1D1D1", borderRadius: "5px" }}
+                style={{
+                  border: "1px solid #D1D1D1",
+                  borderRadius: "5px",
+                }}
               >
                 <Grid item>
                   <Checkbox
@@ -689,6 +760,7 @@ const MyJobs = (props) => {
       fullTime: false,
       partTime: false,
       wfh: false,
+      internship: false,
     },
     salary: [0, 100],
     duration: "0",
@@ -709,25 +781,34 @@ const MyJobs = (props) => {
   });
 
   const setPopup = useContext(SetPopupContext);
+
   useEffect(() => {
     getData();
   }, []);
 
   const getData = () => {
-    let searchParams = [`myjobs=1`];
+    let searchParams = [`myJobs=1`];
     if (searchOptions.query !== "") {
       searchParams = [...searchParams, `q=${searchOptions.query}`];
     }
     if (searchOptions.jobType.fullTime) {
       searchParams = [...searchParams, `jobType=Full%20Time`];
     }
+    // TODO ADD Internship filter
     if (searchOptions.jobType.partTime) {
       searchParams = [...searchParams, `jobType=Part%20Time`];
     }
     if (searchOptions.jobType.wfh) {
-      searchParams = [...searchParams, `jobType=Work%20From%20Home`];
+      searchParams = [
+        ...searchParams,
+        `jobType=Work%20From%20Home`,
+      ];
     }
-    if (searchOptions.salary[0] != 0) {
+    if (searchOptions.jobType.internship) {
+      searchParams = [...searchParams, `jobType=Internship`];
+    }
+
+    if (searchOptions.salary[0] !== 0) {
       searchParams = [
         ...searchParams,
         `salaryMin=${searchOptions.salary[0] * 1000}`,
@@ -740,7 +821,10 @@ const MyJobs = (props) => {
       ];
     }
     if (searchOptions.duration != "0") {
-      searchParams = [...searchParams, `duration=${searchOptions.duration}`];
+      searchParams = [
+        ...searchParams,
+        `duration=${searchOptions.duration}`,
+      ];
     }
 
     let asc = [],
@@ -773,10 +857,10 @@ const MyJobs = (props) => {
       })
       .then((response) => {
         console.log(response.data);
-        setJobs(response.data);
+        setJobs(response.data?.data);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
         setPopup({
           open: true,
           severity: "error",
@@ -848,11 +932,16 @@ const MyJobs = (props) => {
           justify="center"
         >
           {jobs.length > 0 ? (
-            jobs.map((job) => {
-              return <JobTile job={job} getData={getData} />;
+            jobs.map((job, index) => {
+              return (
+                <JobTile job={job} key={index} getData={getData} />
+              );
             })
           ) : (
-            <Typography variant="h5" style={{ textAlign: "center" }}>
+            <Typography
+              variant="h5"
+              style={{ textAlign: "center" }}
+            >
               No jobs found
             </Typography>
           )}
