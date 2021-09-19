@@ -100,7 +100,7 @@ export const updateUser = async (req, res) => {
   const { user } = req;
   const data = req.body;
   try {
-    if (user.type == "recruiter") {
+    if (user.type === "recruiter") {
       const recruiter = await Recruiter.findOne({
         userId: user._id,
       });

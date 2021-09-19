@@ -38,7 +38,12 @@ const MultifieldInput = (props) => {
   return (
     <>
       {education.map((obj, key) => (
-        <Grid item container className={classes.inputBox} key={key}>
+        <Grid
+          item
+          container
+          className={classes.inputBox}
+          key={key}
+        >
           <Grid item xs={6}>
             <TextField
               label={`Institution Name #${key + 1}`}
@@ -144,12 +149,15 @@ const Profile = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(`here`);
+        console.log(response.data.recruiter);
         setProfileDetails(response.data);
         if (response.data.education.length > 0) {
           setEducation(
             response.data.education.map((edu) => ({
-              institutionName: edu.institutionName ? edu.institutionName : "",
+              institutionName: edu.institutionName
+                ? edu.institutionName
+                : "",
               startYear: edu.startYear ? edu.startYear : "",
               endYear: edu.endYear ? edu.endYear : "",
             }))
@@ -237,12 +245,19 @@ const Profile = (props) => {
               alignItems: "center",
             }}
           >
-            <Grid container direction="column" alignItems="stretch" spacing={3}>
+            <Grid
+              container
+              direction="column"
+              alignItems="stretch"
+              spacing={3}
+            >
               <Grid item>
                 <TextField
                   label="Name"
                   value={profileDetails.name}
-                  onChange={(event) => handleInput("name", event.target.value)}
+                  onChange={(event) =>
+                    handleInput("name", event.target.value)
+                  }
                   className={classes.inputBox}
                   variant="outlined"
                   fullWidth

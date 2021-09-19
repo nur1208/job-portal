@@ -60,9 +60,9 @@ const Profile = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
-        setProfileDetails(response.data);
-        setPhone(response.data.contactNumber);
+        console.log(response.data.recruiter);
+        setProfileDetails(response.data.recruiter);
+        setPhone(response.data.recruiter.contactNumber);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -81,7 +81,7 @@ const Profile = (props) => {
     if (phone !== "") {
       updatedDetails = {
         ...profileDetails,
-        contactNumber: `+${phone}`,
+        contactNumber: phone.includes("+") ? phone : `+${phone}`,
       };
     } else {
       updatedDetails = {
@@ -138,12 +138,19 @@ const Profile = (props) => {
               //   width: "60%",
             }}
           >
-            <Grid container direction="column" alignItems="stretch" spacing={3}>
+            <Grid
+              container
+              direction="column"
+              alignItems="stretch"
+              spacing={3}
+            >
               <Grid item>
                 <TextField
                   label="Name"
                   value={profileDetails.name}
-                  onChange={(event) => handleInput("name", event.target.value)}
+                  onChange={(event) =>
+                    handleInput("name", event.target.value)
+                  }
                   className={classes.inputBox}
                   variant="outlined"
                   fullWidth
@@ -160,9 +167,11 @@ const Profile = (props) => {
                   value={profileDetails.bio}
                   onChange={(event) => {
                     if (
-                      event.target.value.split(" ").filter(function (n) {
-                        return n != "";
-                      }).length <= 250
+                      event.target.value
+                        .split(" ")
+                        .filter(function (n) {
+                          return n != "";
+                        }).length <= 250
                     ) {
                       handleInput("bio", event.target.value);
                     }
