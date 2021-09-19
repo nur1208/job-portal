@@ -551,7 +551,7 @@ export const getAllJobApplications = async (req, res) => {
   }
 };
 
-export const getAllRecruiterApplications = async (req, res) => {
+export const getAllApplications = async (req, res) => {
   const { user } = req;
 
   // const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;

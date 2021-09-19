@@ -6,7 +6,7 @@ import {
   deleteJob,
   getAllJobApplications,
   getAllJobs,
-  getAllRecruiterApplications,
+  getAllApplications,
   updateApplications,
 } from "../controllers/jobController.js";
 
@@ -29,7 +29,7 @@ jobRouter
   .post(applyForJob)
   .get(getAllJobApplications);
 
-jobRouter.route("/applications").get(getAllRecruiterApplications);
+jobRouter.route("/applications").get(getAllApplications);
 
 jobRouter.route("/applications/:id").put(updateApplications);
 

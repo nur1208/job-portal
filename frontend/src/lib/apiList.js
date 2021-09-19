@@ -6,10 +6,11 @@ const apiList = {
   uploadResume: `${server}/upload/resume`,
   uploadProfileImage: `${server}/upload/profile`,
   jobs: `${server}/api/v1/jobs`,
-  applications: `${server}/api/applications`,
+  // TODO fix this make it (/api/v1/applications) only
+  applications: `${server}/api/v1/jobs/applications`,
   rating: `${server}/api/rating`,
   user: `${server}/api/v1/users`,
-  applicants: `${server}/api/applicants`,
+  applicants: `${server}/api/v1/users/applicants`,
 };
 
 export default apiList;

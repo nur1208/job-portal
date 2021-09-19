@@ -150,11 +150,11 @@ const Profile = (props) => {
       })
       .then((response) => {
         console.log(`here`);
-        console.log(response.data.recruiter);
-        setProfileDetails(response.data);
-        if (response.data.education.length > 0) {
+        console.log(response.data);
+        setProfileDetails(response.data.jobApplicant);
+        if (response.data.jobApplicant.education.length > 0) {
           setEducation(
-            response.data.education.map((edu) => ({
+            response.data.jobApplicant.education.map((edu) => ({
               institutionName: edu.institutionName
                 ? edu.institutionName
                 : "",
@@ -165,7 +165,7 @@ const Profile = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
         setPopup({
           open: true,
           severity: "error",

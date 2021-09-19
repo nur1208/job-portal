@@ -175,6 +175,8 @@ export const getAllApplicants = async (req, res) => {
   try {
     // check if the user is recruiter
     if (user.type === "recruiter") {
+      console.log(`here`);
+
       // add the uer id to findParams
       let findParams = {
         recruiterId: user._id,
