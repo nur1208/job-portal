@@ -37,7 +37,9 @@ const CreateJobs = (props) => {
     title: "",
     maxApplicants: 100,
     maxPositions: 30,
-    deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
+    deadline: new Date(
+      new Date().getTime() + 10 * 24 * 60 * 60 * 1000
+    )
       .toISOString()
       .substr(0, 16),
     skillsets: [],
@@ -71,7 +73,9 @@ const CreateJobs = (props) => {
           title: "",
           maxApplicants: 100,
           maxPositions: 30,
-          deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
+          deadline: new Date(
+            new Date().getTime() + 10 * 24 * 60 * 60 * 1000
+          )
             .toISOString()
             .substr(0, 16),
           skillsets: [],
@@ -102,7 +106,13 @@ const CreateJobs = (props) => {
         <Grid item>
           <Typography variant="h2">Add Job</Typography>
         </Grid>
-        <Grid item container xs direction="column" justify="center">
+        <Grid
+          item
+          container
+          xs
+          direction="column"
+          justify="center"
+        >
           <Grid item>
             <Paper
               style={{
@@ -166,9 +176,18 @@ const CreateJobs = (props) => {
                     }}
                     fullWidth
                   >
-                    <MenuItem value="Full Time">Full Time</MenuItem>
-                    <MenuItem value="Part Time">Part Time</MenuItem>
-                    <MenuItem value="Work From Home">Work From Home</MenuItem>
+                    <MenuItem value="Full Time">
+                      Full Time
+                    </MenuItem>
+                    <MenuItem value="Part Time">
+                      Part Time
+                    </MenuItem>
+                    <MenuItem value="Work From Home">
+                      Work From Home
+                    </MenuItem>
+                    <MenuItem value="Internship">
+                      Internship
+                    </MenuItem>
                   </TextField>
                 </Grid>
                 <Grid item>
@@ -226,7 +245,10 @@ const CreateJobs = (props) => {
                     variant="outlined"
                     value={jobDetails.maxApplicants}
                     onChange={(event) => {
-                      handleInput("maxApplicants", event.target.value);
+                      handleInput(
+                        "maxApplicants",
+                        event.target.value
+                      );
                     }}
                     InputProps={{ inputProps: { min: 1 } }}
                     fullWidth
@@ -239,7 +261,10 @@ const CreateJobs = (props) => {
                     variant="outlined"
                     value={jobDetails.maxPositions}
                     onChange={(event) => {
-                      handleInput("maxPositions", event.target.value);
+                      handleInput(
+                        "maxPositions",
+                        event.target.value
+                      );
                     }}
                     InputProps={{ inputProps: { min: 1 } }}
                     fullWidth
