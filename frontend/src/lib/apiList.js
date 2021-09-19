@@ -8,7 +8,7 @@ const apiList = {
   jobs: `${server}/api/v1/jobs`,
   // TODO fix this make it (/api/v1/applications) only
   applications: `${server}/api/v1/jobs/applications`,
-  rating: `${server}/api/rating`,
+  rating: `${server}/api/v1/ratings`,
   user: `${server}/api/v1/users`,
   applicants: `${server}/api/v1/users/applicants`,
 };

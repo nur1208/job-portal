@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
-// import { existsSync, mkdirSync } from "fs";
+import { existsSync, mkdirSync } from "fs";
 import userRouter from "./routes/userRoutes.js";
 import jobRouter from "./routes/jobRouter.js";
 import ratingRouter from "./routes/ratingRouter.js";
@@ -22,16 +22,16 @@ mongoose
   .then((res) => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 
-// initialising directories
-// if (!existsSync("./public")) {
-//   mkdirSync("./public");
-// }
-// if (!existsSync("./public/resume")) {
-//   mkdirSync("./public/resume");
-// }
-// if (!existsSync("./public/profile")) {
-//   mkdirSync("./public/profile");
-// }
+// initializing directories
+if (!existsSync("./public")) {
+  mkdirSync("./public");
+}
+if (!existsSync("./public/resume")) {
+  mkdirSync("./public/resume");
+}
+if (!existsSync("./public/profile")) {
+  mkdirSync("./public/profile");
+}
 
 const app = express();
 const port = 5050;

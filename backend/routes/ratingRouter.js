@@ -10,7 +10,7 @@ const ratingRouter = Router();
 ratingRouter.use(isJWTAuth);
 
 ratingRouter
-  .route("rating")
+  .route("/")
   .put(addUpdateRating)
   .get(getPersonalRating);
 
