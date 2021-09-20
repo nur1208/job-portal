@@ -1,8 +1,55 @@
+import multer from "multer";
 import mongoose from "mongoose";
 import Application from "../db/Application.js";
 import JobApplicant from "../db/JobApplicant.js";
 import Recruiter from "../db/Recruiter.js";
 import User from "../db/User.js";
+import AppError from "../utils/appError.js";
+
+// upload
+// create our customs upload (we need multerStorage and multerFilter)
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/profile");
+  },
+  // file is the file object that we consoled it
+  filename: (req, file, cb) => {
+    // user-userId-timeStamp.jpeg
+    const ext = file.mimetype.split("/")[1];
+    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+  },
+});
+
+// // we use multerFilter to check if the file image or not
+// // for security propose
+// // cb(error,value you want to pass)
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(
+      new AppError("Not image! Please upload only images", 400),
+      false
+    );
+  }
+};
+
+export const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+export const uploadUserPhoto = upload.single("file");
+
+export const handleUploadUserPhoto = (req, res) => {
+  // console.log({ file: req.file });
+  const { filename } = req.file;
+  res.send({
+    message: "Profile image uploaded successfully",
+    url: `/profile/${filename}`,
+  });
+};
+
 // get user's personal details
 export const me = async (req, res) => {
   const { user } = req;
@@ -150,12 +197,19 @@ export const updateUser = async (req, res) => {
       if (data.skills) {
         jobApplicant.skills = data.skills;
       }
-      if (data.resume) {
-        jobApplicant.resume = data.resume;
-      }
+      // if (data.resume) {
+      //   jobApplicant.resume = data.resume;
+      // }
       if (data.profile) {
         jobApplicant.profile = data.profile;
       }
+
+      console.log({ file: req.file });
+
+      // if (data.profile) {
+      //   jobApplicant.profile = data.profile;
+      // }
+
       const updatedJobApplicant = await jobApplicant.save();
       res.json({
         status: "success",

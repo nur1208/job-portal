@@ -42,6 +42,7 @@ app.use(express.json()); // support json encoded bodies
 
 // Setting up middlewares
 app.use(cors("http://localhost:3001"));
+app.use(express.static("public"));
 // app.use(initialize());
 
 // Routing
