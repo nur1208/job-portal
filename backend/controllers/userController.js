@@ -10,7 +10,12 @@ import AppError from "../utils/appError.js";
 // create our customs upload (we need multerStorage and multerFilter)
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/profile");
+    const ext = file.mimetype.split("/")[1];
+    if (ext === "pdf") {
+      cb(null, "public/resume");
+    } else {
+      cb(null, "public/profile");
+    }
   },
   // file is the file object that we consoled it
   filename: (req, file, cb) => {
@@ -24,11 +29,18 @@ const multerStorage = multer.diskStorage({
 // // for security propose
 // // cb(error,value you want to pass)
 const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image")) {
+  console.log({ file });
+
+  const ext = file.mimetype.split("/")[1];
+
+  if (file.mimetype.startsWith("image") || ext === "pdf") {
     cb(null, true);
   } else {
     cb(
-      new AppError("Not image! Please upload only images", 400),
+      new AppError(
+        "Not image or Not pdf file! Please upload images or pdf file",
+        400
+      ),
       false
     );
   }
@@ -39,10 +51,17 @@ export const upload = multer({
   fileFilter: multerFilter,
 });
 
-export const uploadUserPhoto = upload.single("file");
+export const uploadUser = upload.single("file");
+
+export const handleUploadUserResume = (req, res) => {
+  const { filename } = req.file;
+  res.send({
+    message: "File uploaded successfully",
+    url: `/resume/${filename}`,
+  });
+};
 
 export const handleUploadUserPhoto = (req, res) => {
-  // console.log({ file: req.file });
   const { filename } = req.file;
   res.send({
     message: "Profile image uploaded successfully",
@@ -197,9 +216,9 @@ export const updateUser = async (req, res) => {
       if (data.skills) {
         jobApplicant.skills = data.skills;
       }
-      // if (data.resume) {
-      //   jobApplicant.resume = data.resume;
-      // }
+      if (data.resume) {
+        jobApplicant.resume = data.resume;
+      }
       if (data.profile) {
         jobApplicant.profile = data.profile;
       }

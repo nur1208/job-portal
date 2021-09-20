@@ -8,9 +8,10 @@ import {
   getAllApplicants,
   getUser,
   handleUploadUserPhoto,
+  handleUploadUserResume,
   me,
   updateUser,
-  uploadUserPhoto,
+  uploadUser,
 } from "../controllers/userController.js";
 
 const userRouter = Router();
@@ -24,8 +25,14 @@ userRouter.use(isJWTAuth);
 
 userRouter.post(
   "/uploadProfileImage",
-  uploadUserPhoto,
+  uploadUser,
   handleUploadUserPhoto
+);
+
+userRouter.post(
+  "/uploadResume",
+  uploadUser,
+  handleUploadUserResume
 );
 
 userRouter.route("/").get(me).put(updateUser);
