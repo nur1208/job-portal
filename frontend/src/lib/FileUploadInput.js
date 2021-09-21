@@ -1,5 +1,10 @@
 import { useState, useContext } from "react";
-import { Grid, Button, TextField, LinearProgress } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  TextField,
+  LinearProgress,
+} from "@material-ui/core";
 import { CloudUpload } from "@material-ui/icons";
 import Axios from "axios";
 
@@ -20,11 +25,14 @@ const FileUploadInput = (props) => {
     Axios.post(uploadTo, data, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       onUploadProgress: (progressEvent) => {
         setUploadPercentage(
           parseInt(
-            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            )
           )
         );
       },
@@ -52,7 +60,13 @@ const FileUploadInput = (props) => {
   };
 
   return (
-    <Grid container item xs={12} direction="column" className={props.className}>
+    <Grid
+      container
+      item
+      xs={12}
+      direction="column"
+      className={props.className}
+    >
       <Grid container item xs={12} spacing={0}>
         <Grid item xs={3}>
           <Button
@@ -103,7 +117,10 @@ const FileUploadInput = (props) => {
       </Grid>
       {uploadPercentage !== 0 ? (
         <Grid item xs={12} style={{ marginTop: "10px" }}>
-          <LinearProgress variant="determinate" value={uploadPercentage} />
+          <LinearProgress
+            variant="determinate"
+            value={uploadPercentage}
+          />
         </Grid>
       ) : null}
     </Grid>

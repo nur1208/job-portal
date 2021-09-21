@@ -1,5 +1,11 @@
 import { createContext, useState } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import { Grid, makeStyles } from "@material-ui/core";
 
 import Welcome, { ErrorPage } from "./component/Welcome";
@@ -17,6 +23,9 @@ import AcceptedApplicants from "./component/recruiter/AcceptedApplicants";
 import RecruiterProfile from "./component/recruiter/Profile";
 import MessagePopup from "./lib/MessagePopup";
 import isAuth, { userType } from "./lib/isAuth";
+import { Chat } from "./component/chat/Chat";
+
+export const SetPopupContext = createContext();
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -31,8 +40,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SetPopupContext = createContext();
-
 function App() {
   const classes = useStyles();
   const [popup, setPopup] = useState({
@@ -40,71 +47,81 @@ function App() {
     severity: "",
     message: "",
   });
+
+  const { pathname } = useLocation();
+  // const history = useHistory();
+  console.log({ pathname });
+
   return (
-    <BrowserRouter>
-      <SetPopupContext.Provider value={setPopup}>
-        <Grid container direction="column">
-          <Grid item xs>
-            <Navbar />
-          </Grid>
-          <Grid item className={classes.body}>
-            <Switch>
-              <Route exact path="/">
-                <Welcome />
-              </Route>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/signup">
-                <Signup />
-              </Route>
-              <Route exact path="/logout">
-                <Logout />
-              </Route>
-              <Route exact path="/home">
-                <Home />
-              </Route>
-              <Route exact path="/applications">
-                <Applications />
-              </Route>
-              <Route exact path="/profile">
-                {userType() === "recruiter" ? (
-                  <RecruiterProfile />
-                ) : (
-                  <Profile />
-                )}
-              </Route>
-              <Route exact path="/addjob">
-                <CreateJobs />
-              </Route>
-              <Route exact path="/myjobs">
-                <MyJobs />
-              </Route>
-              <Route exact path="/job/applications/:jobId">
-                <JobApplications />
-              </Route>
-              <Route exact path="/employees">
-                <AcceptedApplicants />
-              </Route>
-              <Route>
-                <ErrorPage />
-              </Route>
-            </Switch>
-          </Grid>
+    <SetPopupContext.Provider value={setPopup}>
+      <Grid container direction="column">
+        <Grid item xs>
+          <Navbar />
         </Grid>
-        <MessagePopup
-          open={popup.open}
-          setOpen={(status) =>
-            setPopup({
-              ...popup,
-              open: status,
-            })
-          }
-          severity={popup.severity}
-          message={popup.message}
-        />
-      </SetPopupContext.Provider>
-    </BrowserRouter>
+        <Grid
+          item
+          className={classes.body}
+          style={pathname === "/chat" ? { display: "block" } : {}}
+        >
+          <Switch>
+            <Route exact path="/">
+              <Welcome />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            <Route exact path="/logout">
+              <Logout />
+            </Route>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Route exact path="/applications">
+              <Applications />
+            </Route>
+            <Route exact path="/profile">
+              {userType() === "recruiter" ? (
+                <RecruiterProfile />
+              ) : (
+                <Profile />
+              )}
+            </Route>
+            <Route exact path="/addjob">
+              <CreateJobs />
+            </Route>
+            <Route exact path="/myjobs">
+              <MyJobs />
+            </Route>
+            <Route exact path="/job/applications/:jobId">
+              <JobApplications />
+            </Route>
+            <Route exact path="/employees">
+              <AcceptedApplicants />
+            </Route>
+            <Route exact path="/chat">
+              <Chat />
+            </Route>
+            <Route>
+              <ErrorPage />
+            </Route>
+          </Switch>
+        </Grid>
+      </Grid>
+      <MessagePopup
+        open={popup.open}
+        setOpen={(status) =>
+          setPopup({
+            ...popup,
+            open: status,
+          })
+        }
+        severity={popup.severity}
+        message={popup.message}
+      />
+    </SetPopupContext.Provider>
   );
 }
 
