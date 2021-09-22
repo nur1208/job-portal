@@ -9,8 +9,8 @@ POST {{Host}}:{{port}}/{{route}}/signup
 Content-Type: application/json
 
 {
-    "email":"john@john.com",
-    "name":"john",
+    "email":"benri@benri.com",
+    "name":"benri",
     "password":"12341234",
     "type":"recruiter"
 }
@@ -21,7 +21,7 @@ POST {{Host}}:{{port}}/{{route}}/login
 Content-Type: application/json
 
 {
-    "email":"john@john.com",
+    "email":"benri@benri.com",
     "password":"12341234"
 }
 

@@ -7,6 +7,7 @@ import User from "../db/User.js";
 export const signUp = async (req, res) => {
   try {
     const data = req.body;
+    console.log({ data });
 
     const user = new User({
       email: data.email,
@@ -22,12 +23,14 @@ export const signUp = async (req, res) => {
             userId: newUser._id,
             name: data.name,
             contactNumber: data.contactNumber,
+
             bio: data.bio,
           })
         : new JobApplicant({
             userId: newUser._id,
             name: data.name,
             education: data.education,
+            usernameChatEngine: newUser.usernameChatEngine,
             skills: data.skills,
             rating: data.rating,
             resume: data.resume,
@@ -48,10 +51,12 @@ export const signUp = async (req, res) => {
       });
     } catch (error) {
       await newUser.delete();
-      res.status(400).json(error);
+      res.status(400).json({ error });
     }
   } catch (error) {
-    res.status(400).json(error);
+    console.log({ error });
+
+    res.status(400).json({ error });
   }
 };
 
@@ -60,7 +65,10 @@ export const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email }).select("+password");
-    !user && res.status(401).json("Wrong password or username!");
+    !user &&
+      res
+        .status(401)
+        .json({ message: "Wrong password or username!" });
 
     const isCorrectPassword = await user.isCorrectPassword(
       password,
@@ -68,7 +76,9 @@ export const login = async (req, res) => {
     );
 
     !isCorrectPassword &&
-      res.status(401).json("Wrong password or username!");
+      res
+        .status(401)
+        .json({ message: "Wrong password or username!" });
 
     const accessToken = jwt.sign(
       { id: user._id },
@@ -126,19 +136,21 @@ export const isJWTAuth = async (req, res, next) => {
   const currentUser = await User.findById(decode.id);
   // if the user delete after we send him a token
   // and before the token expired
-  if (!currentUser) {
-    res.status(401).json({
-      status: "fall",
-      message:
-        "The user belonging to this token does no longer exist",
-    });
+  // TODO FIX THE ERROR THAT OCCURS BECAUSE THE FOLLOWING CODE
+  // WHEN THE USER SIGN UP AND THEN WE AUTO LOG HIM IN
+  // if (!currentUser) {
+  //   res.status(401).json({
+  //     status: "fall",
+  //     message:
+  //       "The user belonging to this token does no longer exist",
+  //   });
 
-    console.log({
-      status: "fall",
-      message:
-        "The user belonging to this token does no longer exist",
-    });
-  }
+  //   console.log({
+  //     status: "fall",
+  //     message:
+  //       "The user belonging to this token does no longer exist",
+  //   });
+  // }
 
   console.log({ currentUser });
 

@@ -82,7 +82,10 @@ const Login = (props) => {
         .post(apiList.login, loginDetails)
         .then((response) => {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("name", response.data.name);
+          localStorage.setItem(
+            "usernameChatEngine",
+            response.data.usernameChatEngine
+          );
           localStorage.setItem("type", response.data.type);
           setLoggedin(isAuth());
           setPopup({

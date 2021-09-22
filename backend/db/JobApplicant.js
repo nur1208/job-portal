@@ -54,6 +54,7 @@ let schema = new mongoose.Schema(
         msg: "Invalid rating",
       },
     },
+    usernameChatEngine: String,
     resume: String,
     profile: String,
   },

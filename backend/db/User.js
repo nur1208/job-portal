@@ -20,6 +20,7 @@ let schema = new mongoose.Schema(
       enum: ["recruiter", "applicant"],
       required: true,
     },
+    usernameChatEngine: String,
   },
   { collation: { locale: "en" } }
 );
@@ -40,6 +41,20 @@ schema.pre("save", function (next) {
     user.password = hash;
     next();
   });
+});
+
+// add usernameChatEngine filed
+schema.pre("save", function (next) {
+  const user = this;
+  const { email, _id } = user;
+  const lastFourDight = _id
+    .toString()
+    .substr(_id.toString().length - 4);
+  const name = email.substr(0, email.indexOf("@"));
+
+  user.usernameChatEngine = `${name}${lastFourDight}`;
+
+  next();
 });
 
 // Password verification upon login
