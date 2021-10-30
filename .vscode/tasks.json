@@ -9,6 +9,15 @@
       "label": "npm: start - frontend",
       "detail": "react-scripts start",
       "group": "build"
+    },
+    {
+      "type": "npm",
+      "script": "start",
+      "path": "backend/",
+      "problemMatcher": [],
+      "label": "npm: start - backend",
+      "detail": "nodemon node server.js",
+      "group": "build"
     }
   ]
 }

@@ -35,18 +35,20 @@ export const Chat = () => {
   // }, []);
   return (
     <ChatEngineWrapper id="ChatEngineWrapper">
-      <ChatEngine
-        height="89vh"
-        projectID={CHAT_PROJECT_ID}
-        userName={localStorage.getItem("usernameChatEngine")}
-        userSecret="12341234"
-        renderChatFeed={(chatAppProps) => (
-          <ChatFeed {...chatAppProps} />
-        )}
-        renderPeopleSettings={(creds, chat) => {}}
-        // is_direct_chat={true}
-        // renderChatList={null}
-      />
+      {localStorage.getItem("usernameChatEngine") && (
+        <ChatEngine
+          height="89vh"
+          projectID={CHAT_PROJECT_ID}
+          userName={localStorage.getItem("usernameChatEngine")}
+          userSecret="12341234"
+          renderChatFeed={(chatAppProps) => (
+            <ChatFeed {...chatAppProps} />
+          )}
+          renderPeopleSettings={(creds, chat) => {}}
+          // is_direct_chat={true}
+          // renderChatList={null}
+        />
+      )}
     </ChatEngineWrapper>
   );
 };

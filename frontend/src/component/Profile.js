@@ -38,12 +38,7 @@ const MultifieldInput = (props) => {
   return (
     <>
       {education.map((obj, key) => (
-        <Grid
-          item
-          container
-          className={classes.inputBox}
-          key={key}
-        >
+        <Grid item container className={classes.inputBox} key={key}>
           <Grid item xs={6}>
             <TextField
               label={`Institution Name #${key + 1}`}

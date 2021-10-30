@@ -9,8 +9,8 @@ import {
 import { Grid, makeStyles } from "@material-ui/core";
 
 import Welcome, { ErrorPage } from "./component/Welcome";
-import Navbar from "./component/Navbar";
 import Login from "./component/Login";
+import { NavBar } from "./component/Navbar/Navbar";
 import Logout from "./component/Logout";
 import Signup from "./component/Signup";
 import Home from "./component/Home";
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     minHeight: "98vh",
-    paddingTop: "64px",
+    paddingTop: "34px",
     boxSizing: "border-box",
     width: "100%",
   },
@@ -50,14 +50,14 @@ function App() {
 
   const { pathname } = useLocation();
   // const history = useHistory();
-  console.log({ pathname });
 
   return (
     <SetPopupContext.Provider value={setPopup}>
+      <NavBar />
       <Grid container direction="column">
-        <Grid item xs>
+        {/* <Grid item xs>
           <Navbar />
-        </Grid>
+        </Grid> */}
         <Grid
           item
           className={classes.body}
