@@ -216,7 +216,7 @@ export const getAllJobs = async (req, res) => {
     arr = [
       {
         $lookup: {
-          from: "Recruiter",
+          from: "recruiters",
           localField: "userId",
           foreignField: "userId",
           as: "recruiter",
@@ -338,13 +338,14 @@ export const applyForJob = async (req, res) => {
     }
 
     // 3) check count of active applications < limit
-    const activeApplicationCount =
-      await Application.countDocuments({
+    const activeApplicationCount = await Application.countDocuments(
+      {
         jobId: jobId,
         status: {
           $nin: ["rejected", "deleted", "cancelled", "finished"],
         },
-      });
+      }
+    );
 
     if (activeApplicationCount < job.maxApplicants) {
       const myActiveApplicationCount =

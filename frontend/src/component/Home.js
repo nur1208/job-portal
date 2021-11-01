@@ -28,8 +28,9 @@ import { SetPopupContext } from "../App";
 
 import apiList from "../lib/apiList";
 import { userType } from "../lib/isAuth";
+import { JobCard } from "./JobCard/JobCard";
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   body: {
     height: "inherit",
   },
@@ -48,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  gap: {
+    gap: "58px",
   },
 }));
 
@@ -459,8 +463,7 @@ const FilterPopup = (props) => {
                           ...searchOptions.sort,
                           duration: {
                             ...searchOptions.sort.duration,
-                            desc: !searchOptions.sort.duration
-                              .desc,
+                            desc: !searchOptions.sort.duration.desc,
                           },
                         },
                       });
@@ -553,7 +556,10 @@ const FilterPopup = (props) => {
 };
 
 const Home = (props) => {
-  const [jobs, setJobs] = useState([]);
+  // const [jobs, setJobs] = useState([]);
+  const classes = useStyles();
+
+  const { jobs, setJobs } = props;
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchOptions, setSearchOptions] = useState({
     query: "",
@@ -689,7 +695,7 @@ const Home = (props) => {
           <Grid item xs>
             <Typography variant="h2">Jobs</Typography>
           </Grid>
-          <Grid item xs>
+          {/* <Grid item xs>
             <TextField
               label="Search Jobs"
               value={searchOptions.query}
@@ -716,25 +722,29 @@ const Home = (props) => {
               style={{ width: "500px" }}
               variant="outlined"
             />
-          </Grid>
-          <Grid item>
+          </Grid> */}
+          {/* <Grid item>
             <IconButton onClick={() => setFilterOpen(true)}>
               <FilterListIcon />
             </IconButton>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid
           container
           item
-          xs
-          direction="column"
-          alignItems="stretch"
-          justify="center"
+          // xs
+          // direction="column"
+          // alignItems="stretch"
+          // spacing={2}
+          className={classes.gap}
+          // spacing="50px"
+          // style={{ gap: "50px" }}
+          justify="flex-start"
         >
           {jobs.length > 0 ? (
-            jobs.map((job) => {
-              return <JobTile job={job} />;
+            jobs.map((job, index) => {
+              return <JobCard job={job} key={index} />;
             })
           ) : (
             <Typography

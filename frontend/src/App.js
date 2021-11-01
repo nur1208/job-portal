@@ -24,7 +24,7 @@ import RecruiterProfile from "./component/recruiter/Profile";
 import MessagePopup from "./lib/MessagePopup";
 import isAuth, { userType } from "./lib/isAuth";
 import { Chat } from "./component/chat/Chat";
-
+import { HomePage } from "./pages/HomePage/HomePage";
 export const SetPopupContext = createContext();
 
 const useStyles = makeStyles((theme) => ({
@@ -61,11 +61,16 @@ function App() {
         <Grid
           item
           className={classes.body}
-          style={pathname === "/chat" ? { display: "block" } : {}}
+          style={
+            pathname === "/chat" || pathname === "/"
+              ? { display: "block", paddingTop: 0 }
+              : {}
+          }
         >
           <Switch>
             <Route exact path="/">
-              <Welcome />
+              {/* <Welcome /> */}
+              <HomePage />
             </Route>
             <Route exact path="/login">
               <Login />
