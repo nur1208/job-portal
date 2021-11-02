@@ -43,8 +43,7 @@ export const SelectBtnWrapper = styled.div`
     outline: 0;
     margin: 4px 0.5rem 8px 0;
     padding: 0.5rem 1rem;
-    font-family: Noto Sans, Helvetica Neue, Helvetica, Arial,
-      sans-serif;
+    font-family: Noto Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 0.75rem;
     letter-spacing: 0;
     font-weight: 400;
@@ -63,8 +62,8 @@ export const SelectBtnWrapper = styled.div`
 
   .yosegi-FilterPill-pill:focus {
     background-color: #e4e2e0;
-    box-shadow: inset 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.1),
-      0 0 0 2px #fff, 0 0 0 3px #2557a7;
+    box-shadow: inset 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.1), 0 0 0 2px #fff,
+      0 0 0 3px #2557a7;
   }
 
   .yosegi-FilterPill-pill:active {
@@ -146,8 +145,7 @@ export const SelectBtnWrapper = styled.div`
 
   .yosegi-FilterPill-dropdownListItemLink {
     box-sizing: border-box;
-    font-family: Noto Sans, Helvetica Neue, Helvetica, Arial,
-      sans-serif;
+    font-family: Noto Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 0.875rem;
     letter-spacing: 0;
     font-weight: 400;
@@ -166,16 +164,14 @@ export const SelectBtnWrapper = styled.div`
     outline: none;
   }
   [lang="ja"][dir] .yosegi-FilterPill-dropdownListItemLink {
-    font-family: Hiragino Sans, Noto, Noto Sans CJK JP,
-      Helvetica Neue, Helvetica, Arial, Liberation Sans, Roboto,
-      sans-serif;
+    font-family: Hiragino Sans, Noto, Noto Sans CJK JP, Helvetica Neue,
+      Helvetica, Arial, Liberation Sans, Roboto, sans-serif;
     font-size: 0.875rem;
     letter-spacing: 0;
     font-weight: 400;
     line-height: 1.43;
-    font-family: Hiragino Sans, Noto, Noto Sans CJK JP,
-      Helvetica Neue, Helvetica, Arial, Liberation Sans, Roboto,
-      sans-serif !important;
+    font-family: Hiragino Sans, Noto, Noto Sans CJK JP, Helvetica Neue,
+      Helvetica, Arial, Liberation Sans, Roboto, sans-serif !important;
   }
   [dir="rtl"] .yosegi-FilterPill-dropdownListItemLink {
     text-align: right;

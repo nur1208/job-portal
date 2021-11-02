@@ -42,12 +42,11 @@ export const MainSearchContainer = ({ setJobs }) => {
       <main>
         <div class="h1-container">
           <span
-            class="h1-title-new"
-            title="Jobs, careers, employment and recruitment at Reed.co.uk"
+          // class="h1-title-new"
+          // title="Jobs, careers, employment and recruitment at Reed.co.uk"
           >
             <span class="h1-slogan">
-              Jobs, careers, employment and recruitment at
-              Reed.co.uk
+              Jobs, careers, employment and recruitment at Reed.co.uk
             </span>
           </span>
         </div>
@@ -62,14 +61,9 @@ export const MainSearchContainer = ({ setJobs }) => {
         >
           <div class="row row-mobile">
             <p class="job-counter job-counter-mobile">
-              Search {totalJobs} new jobs - 11,212 added in the last
-              24 hours
+              {/* Search {totalJobs} new jobs - 11,212 added in the last 24 hours */}
             </p>
-            <div
-              role="group"
-              aria-labelled-by="find-job"
-              class="collector"
-            >
+            <div role="group" aria-labelled-by="find-job" class="collector">
               <div
                 class="top-section horizontal-form"
                 data-bind="attr: {class: 'top-section horizontal-form' + (twoStepsSearchEnabled() ? ' twoStepsSearchEnabled' : '')}"
@@ -92,7 +86,7 @@ export const MainSearchContainer = ({ setJobs }) => {
                       id="main-keywords"
                       name="keywords"
                       maxlength="255"
-                      placeholder='e.g. "sales executive"'
+                      placeholder='e.g. "software Engendering "'
                       aria-label="keywords e.g. web design"
                       title="keywords e.g. web design"
                       autocomplete="off"
@@ -100,9 +94,7 @@ export const MainSearchContainer = ({ setJobs }) => {
                         position: "relative",
                         verticalAlign: "top",
                       }}
-                      onChange={(e) =>
-                        setSearchInput(e.target.value)
-                      }
+                      onChange={(e) => setSearchInput(e.target.value)}
                     />
                     <pre
                       aria-hidden="true"
@@ -148,11 +140,7 @@ export const MainSearchContainer = ({ setJobs }) => {
                   style={{ display: "none" }}
                 >
                   <label for="proximity">Distance</label>
-                  <select
-                    id="proximity"
-                    name="proximity"
-                    class="form-control"
-                  >
+                  <select id="proximity" name="proximity" class="form-control">
                     <option value="0">0 miles</option>
                     <option value="1">1 mile</option>
                     <option value="3">3 miles</option>

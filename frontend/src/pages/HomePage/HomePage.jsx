@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Footer from "../../component/Footer/Footer";
 import Home from "../../component/Home";
 import { MainSearchContainer } from "../../component/mainSearchContainer/MainSearchContainer";
 import { HomePageWrapper } from "./HomePageSC";

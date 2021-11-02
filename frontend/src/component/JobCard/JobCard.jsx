@@ -39,9 +39,7 @@ export const JobCard = (props) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem(
-              "token"
-            )}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       )
@@ -78,18 +76,13 @@ export const JobCard = (props) => {
             <Typography variant="h5">{job.title}</Typography>
           </Grid>
           <Grid item>
-            <Rating
-              value={job.rating !== -1 ? job.rating : null}
-              readOnly
-            />
+            <Rating value={job.rating !== -1 ? job.rating : null} readOnly />
           </Grid>
           <Grid item>Role : {job.jobType}</Grid>
-          <Grid item>Salary : &#8377; {job.salary} per month</Grid>
+          <Grid item>Salary : &#36; {job.salary} per month</Grid>
           <Grid item>
             Duration :{" "}
-            {job.duration !== 0
-              ? `${job.duration} month`
-              : `Flexible`}
+            {job.duration !== 0 ? `${job.duration} month` : `Flexible`}
           </Grid>
           <Grid item>Posted By : {job.recruiter.name}</Grid>
           <Grid item>Application Deadline : {deadline}</Grid>
@@ -116,11 +109,7 @@ export const JobCard = (props) => {
         {/* <Grid item xs={3}>
         </Grid> */}
       </Grid>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        className={classes.popupDialog}
-      >
+      <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
         <Paper
           style={{
             padding: "20px",

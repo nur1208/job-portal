@@ -3,13 +3,9 @@ import { Link } from "react-router-dom";
 import isAuth, { userType } from "../../lib/isAuth";
 import { renderNavbarItems, useGetNavbarItems } from "./navbarUtil";
 export const NavBar = () => {
-  const recruiterNavbarItems = useGetNavbarItems(
-    "recruiterNavbarItems"
-  );
+  const recruiterNavbarItems = useGetNavbarItems("recruiterNavbarItems");
 
-  const applicantNavbarItems = useGetNavbarItems(
-    "applicantNavbarItems"
-  );
+  const applicantNavbarItems = useGetNavbarItems("applicantNavbarItems");
   return (
     // <header id="site-header" role="banner" class="signed-out">
     <NavbarWrapper id="site-header">
@@ -23,13 +19,21 @@ export const NavBar = () => {
           <span>Toggle menu</span>
         </a>
 
-        <Link
+        {/* <Link
           to="/home"
-          title="Reed.co.uk"
+          title="Job.co.uk"
           class="reed-logo globalReedLogo header-block-link"
+        > */}
+        {/* <span>Job portal</span> */}
+
+        <Link
+          to="/"
+          data-bind="attr: { href: signInUrl }"
+          class="sign-in gtmGlobalResponsiveSignIn header-block-link"
         >
-          <span>Reed.co.uk</span>
+          Job Portal
         </Link>
+        {/* </Link> */}
 
         <ul class="main-navigation">
           {isAuth() ? (

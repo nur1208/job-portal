@@ -88,9 +88,7 @@ const ApplicationTile = (props) => {
         { rating: rating, jobId: application.job._id },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem(
-              "token"
-            )}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       )
@@ -136,15 +134,11 @@ const ApplicationTile = (props) => {
       <Grid container>
         <Grid container item xs={9} spacing={1} direction="column">
           <Grid item>
-            <Typography variant="h5">
-              {application.job.title}
-            </Typography>
+            <Typography variant="h5">{application.job.title}</Typography>
           </Grid>
           <Grid item>Posted By: {application.recruiter.name}</Grid>
           <Grid item>Role : {application.job.jobType}</Grid>
-          <Grid item>
-            Salary : &#8377; {application.job.salary} per month
-          </Grid>
+          <Grid item>Salary : &#36; {application.job.salary} per month</Grid>
           <Grid item>
             Duration :{" "}
             {application.job.duration !== 0
@@ -156,14 +150,10 @@ const ApplicationTile = (props) => {
               <Chip label={skill} style={{ marginRight: "2px" }} />
             ))}
           </Grid>
-          <Grid item>
-            Applied On: {appliedOn.toLocaleDateString()}
-          </Grid>
+          <Grid item>Applied On: {appliedOn.toLocaleDateString()}</Grid>
           {application.status === "accepted" ||
           application.status === "finished" ? (
-            <Grid item>
-              Joined On: {joinedOn.toLocaleDateString()}
-            </Grid>
+            <Grid item>Joined On: {joinedOn.toLocaleDateString()}</Grid>
           ) : null}
         </Grid>
         <Grid item container direction="column" xs={3}>
@@ -196,11 +186,7 @@ const ApplicationTile = (props) => {
           ) : null}
         </Grid>
       </Grid>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        className={classes.popupDialog}
-      >
+      <Modal open={open} onClose={handleClose} className={classes.popupDialog}>
         <Paper
           style={{
             padding: "20px",

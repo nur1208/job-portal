@@ -25,6 +25,7 @@ import MessagePopup from "./lib/MessagePopup";
 import isAuth, { userType } from "./lib/isAuth";
 import { Chat } from "./component/chat/Chat";
 import { HomePage } from "./pages/HomePage/HomePage";
+import Footer from "./component/Footer/Footer";
 export const SetPopupContext = createContext();
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +55,7 @@ function App() {
   return (
     <SetPopupContext.Provider value={setPopup}>
       <NavBar />
+
       <Grid container direction="column">
         {/* <Grid item xs>
           <Navbar />
@@ -88,11 +90,7 @@ function App() {
               <Applications />
             </Route>
             <Route exact path="/profile">
-              {userType() === "recruiter" ? (
-                <RecruiterProfile />
-              ) : (
-                <Profile />
-              )}
+              {userType() === "recruiter" ? <RecruiterProfile /> : <Profile />}
             </Route>
             <Route exact path="/addjob">
               <CreateJobs />

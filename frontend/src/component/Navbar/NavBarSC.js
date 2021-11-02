@@ -149,7 +149,7 @@ export const NavbarWrapper = styled.header`
     padding: 0 15px 0 7.5px;
   }
   & .reed-logo span {
-    vertical-align: middle;
+    /* vertical-align: middle;
     text-indent: -999em;
     content: "";
     text-indent: -999em;
@@ -158,13 +158,15 @@ export const NavbarWrapper = styled.header`
     overflow: hidden;
     width: 116px;
     height: 30px;
-    background-position: -390px -180px;
+    background-position: -390px -180px; */
   }
   & .reed-logo span {
-    background-size: 1320px 1320px;
+    /* background-size: 100px 100px;
     -webkit-background-size: 1320px 1320px;
     background-repeat: no-repeat;
-    background-image: url(/images/icon-sprite-1633939505671.svg);
+    /* background-image: url(/images/icon-sprite-1633939505671.svg); */
+    /* background-color: red; */
+    background-image: url(/images/logo.jpg);
   }
 
   & ul.main-navigation {

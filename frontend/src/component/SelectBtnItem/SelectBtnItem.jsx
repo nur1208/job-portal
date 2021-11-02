@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import BeenhereIcon from "@material-ui/icons/Beenhere";
 
-export const SelectBtnItem = ({
-  label,
-  items,
-  handleSelectFilter,
-}) => {
+export const SelectBtnItem = ({ label, items, handleSelectFilter }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
   const handleBlur = (e) => {
@@ -23,10 +19,7 @@ export const SelectBtnItem = ({
   };
 
   return (
-    <div
-      class="yosegi-FilterPill-dropdownPillContainer"
-      onBlur={handleBlur}
-    >
+    <div class="yosegi-FilterPill-dropdownPillContainer" onBlur={handleBlur}>
       <button
         id="filter-dateposted"
         class="yosegi-FilterPill-pill"
@@ -34,7 +27,7 @@ export const SelectBtnItem = ({
           e.preventDefault();
           setIsDropDownOpen(!isDropDownOpen);
         }}
-        style={{ backgroundColor: "#cf04a9", color: "#fff" }}
+        style={{ backgroundColor: "#fff", color: "black", fontSize: 16 }}
       >
         <div class="yosegi-FilterPill-pillLabel">{label}</div>
         <div class="yosegi-FilterPill-pillIcon">
@@ -60,10 +53,7 @@ export const SelectBtnItem = ({
         // onBlur={() => setIsDropDownOpen(false)}
       >
         {items.map(({ title, isSelected }, index) => (
-          <li
-            class={`yosegi-FilterPill-dropdownListItem `}
-            key={index}
-          >
+          <li class={`yosegi-FilterPill-dropdownListItem `} key={index}>
             <Button
               class="yosegi-FilterPill-dropdownListItemLink"
               onClick={(e) => {
