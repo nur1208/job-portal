@@ -5,7 +5,7 @@
 
 @benUserToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDFiNjBlYzkwYWU5MTQ0OGY0Mzc5YiIsImlhdCI6MTYzMTcwMzIwMywiZXhwIjoxNjMyMTM1MjAzfQ.HF9jg1TtUY02Z3pjjIntHPnBiUSLHWpIqSgJLSCIwng
 
-@recruiterToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDFiNmFiYzkwYWU5MTQ0OGY0MzdhMCIsImlhdCI6MTYzMTcwNDI0OCwiZXhwIjoxNjMyMTM2MjQ4fQ.FFEVmkoJnYDlxaGxexpKuIYkvGPm4tq5r9VsHdgJlSk
+@recruiterToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxODBlNjA5ODcyNDkwMDhhOGJiNTc4ZCIsImlhdCI6MTYzNTgzNzU2MSwiZXhwIjoxNjM2MjY5NTYxfQ.Bczev6WL1usKnzxgr7jFuIitDJ_ONPSRRO6kQZ_xEG0
 
 @recruiter2Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDY4YWM3Yjc0OTRjMzRiNDhkYzI4ZiIsImlhdCI6MTYzMjAxMzE1MywiZXhwIjoxNjMyNDQ1MTUzfQ.XDWBUXz69Y47rfegNqtGX3moO3mvlGi8lWqGIvePBj8
 
@@ -13,19 +13,21 @@
 
 POST {{Host}}:{{port}}/{{route}}
 Content-Type: application/json
-Authorization: Bearer {{recruiter2Token}}
+Authorization: Bearer {{recruiterToken}}
 
 {
-    "title": "Full Stack",
+    "title": "Web Developer",
     "maxApplicants": 5,
     "maxPositions": 3,
     "deadline": "2022-02-20T18:17:24.519Z",
-    "skillsets": ["ReactJS", "NodeJS", "Express"],
+    "skillSets": ["ReactJS", "NodeJS", "Express"],
     "jobType": "Full Time",
-    "duration": 5,
-    "salary": 8500
+    "duration": 0,
+    "salary": 105000
 }
 
+    # "skillSets": ["HTML", "PHP", "CSS", "Node"],
+# 
 ###
 
 GET {{Host}}:{{port}}/{{route}}
@@ -35,3 +37,7 @@ Authorization: Bearer {{benUserToken}}
 
 DELETE  {{Host}}:{{port}}/{{route}}/61429437d8961d1cc88a0246
 Authorization: Bearer {{recruiterToken}}
+###
+
+
+GET {{Host}}:{{port}}/{{route}}/getTotalNumber

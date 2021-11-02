@@ -1,12 +1,12 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SelectBtn } from "../SelectBtn/SelectBtn";
 import { Wrapper } from "./MainSearchContainerSc";
 
 export const MainSearchContainer = ({ setJobs }) => {
   const [openRecuiters, setOpenRecuiters] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-
+  const [totalJobs, setTotalJobs] = useState(0);
   const handleSearch = async (e) => {
     e.preventDefault();
     console.log(searchInput);
@@ -22,6 +22,17 @@ export const MainSearchContainer = ({ setJobs }) => {
 
     setJobs(data.data);
   };
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(
+        `http://localhost:5050/api/v1/jobs/getTotalNumber`
+      );
+
+      setTotalJobs(data.length);
+      // console.log({ length: data.length });
+    })();
+  }, []);
 
   return (
     <Wrapper
@@ -51,8 +62,8 @@ export const MainSearchContainer = ({ setJobs }) => {
         >
           <div class="row row-mobile">
             <p class="job-counter job-counter-mobile">
-              Search 290,007 new jobs - 11,212 added in the last 24
-              hours
+              Search {totalJobs} new jobs - 11,212 added in the last
+              24 hours
             </p>
             <div
               role="group"

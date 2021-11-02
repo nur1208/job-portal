@@ -14,13 +14,13 @@ export const SelectBtn = ({ setJobs }) => {
     {
       label: "Duration",
       items: [
-        { title: "1 Months", isSelected: false },
-        { title: "2 Months", isSelected: false },
-        { title: "3 Months", isSelected: false },
-        { title: "4 Months", isSelected: false },
-        { title: "5 Months", isSelected: false },
-        { title: "6 Months", isSelected: false },
-        { title: "7 Months", isSelected: false },
+        { title: "+1 Months", isSelected: false },
+        { title: "+2 Months", isSelected: false },
+        { title: "+3 Months", isSelected: false },
+        { title: "+4 Months", isSelected: false },
+        { title: "+5 Months", isSelected: false },
+        { title: "+6 Months", isSelected: false },
+        { title: "+7 Months", isSelected: false },
       ],
     },
     {
@@ -36,8 +36,8 @@ export const SelectBtn = ({ setJobs }) => {
     {
       label: "Job Type",
       items: [
-        { title: "Full time", isSelected: false },
-        { title: "Part time", isSelected: false },
+        { title: "Full Time", isSelected: false },
+        { title: "Part Time", isSelected: false },
         { title: "Work From Home", isSelected: false },
         { title: "Internship", isSelected: false },
       ],
@@ -71,31 +71,49 @@ export const SelectBtn = ({ setJobs }) => {
     setSelectBtnItems(newS);
 
     let newUrl;
+    const toggleSelect = (target, type) => {
+      const valueType =
+        type === "number"
+          ? value.replace(/\D/g, "")
+          : type === "sort"
+          ? value.split(" ")[0].toLowerCase()
+          : value;
+
+      const isUndo =
+        url.substr(
+          url.indexOf(`${target}=`) + `${target}=`.length
+        ) === valueType;
+
+      // const targetWitheSignOrNot = url.includes();
+
+      if (url.includes(target)) {
+        newUrl = isUndo
+          ? url.replace(`&${target}=${valueType}`, "")
+          : `${
+              url.substr(
+                0,
+                url.indexOf(`&${target}=`) + `${target}=`.length
+              ) + valueType
+            }`;
+      } else {
+        newUrl = `${url}&${target}=${valueType}`;
+      }
+    };
 
     if (label === "Duration" || label === "Salary Estimate") {
       if (label === "Duration") {
-        if (url.includes("duration")) {
-          const isUndo =
-            url.substr(
-              url.indexOf("duration=") + "duration=".length
-            ) === value.replace(/\D/g, "");
-
-          newUrl = isUndo
-            ? url.replace(
-                `duration=${value.replace(/\D/g, "")}`,
-                ""
-              )
-            : `${
-                url.substr(
-                  0,
-                  url.indexOf("duration=") + "duration=".length
-                ) + value.replace(/\D/g, "")
-              }`;
-        } else {
-          newUrl = `${url}duration=${value.replace(/\D/g, "")}`;
-        }
+        toggleSelect("duration", "number");
+        console.log(newUrl);
+      } else {
+        toggleSelect("salaryMin", "number");
         console.log(newUrl);
       }
+    } else if (label === "Job Type") {
+      toggleSelect("jobType");
+      console.log(newUrl);
+    } else if (label === "Sort By") {
+      toggleSelect(value.split(" ")[1], "sort");
+      console.log(newUrl);
     }
 
     setUrl(newUrl);

@@ -8,9 +8,12 @@ import {
   getAllJobs,
   getAllApplications,
   updateApplications,
+  getTotalJobsNumber,
 } from "../controllers/jobController.js";
 
 const jobRouter = express.Router();
+
+jobRouter.get("/getTotalNumber", getTotalJobsNumber);
 
 // only logged in user can access the following routes.
 jobRouter.use(isJWTAuth);

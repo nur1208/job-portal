@@ -784,3 +784,9 @@ export const updateApplications = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+export const getTotalJobsNumber = async (req, res) => {
+  const length = await Job.countDocuments();
+
+  res.status(200).json({ status: "success", length });
+};
