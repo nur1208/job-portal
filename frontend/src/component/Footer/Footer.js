@@ -11,7 +11,13 @@ import {
 const Footer = () => {
   return (
     <Box>
-      <h1 style={{ color: "green", textAlign: "center", marginTop: "-50px" }}>
+      <h1
+        style={{
+          color: "green",
+          textAlign: "center",
+          marginTop: "-50px",
+        }}
+      >
         GeeksforGeeks: A Computer Science Portal for Geeks
       </h1>
       <Container>
@@ -45,7 +51,9 @@ const Footer = () => {
             </FooterLink>
             <FooterLink href="#">
               <i className="fab fa-instagram">
-                <span style={{ marginLeft: "10px" }}>Instagram</span>
+                <span style={{ marginLeft: "10px" }}>
+                  Instagram
+                </span>
               </i>
             </FooterLink>
             <FooterLink href="#">

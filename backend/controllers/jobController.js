@@ -40,13 +40,14 @@ export const createJob = async (req, res) => {
   }
 };
 
-export const getAllJobs = async (req, res) => {
+export const getAllJobsVisiter = async () => {};
+
+export const myJob = async (req, res, next) => {
   const { user } = req;
 
   // findParams will hold all find parameters (query stuff)
   let findParams = {};
   // sortParams will hold all sort parameters
-  let sortParams = {};
 
   // pagination
   // const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
@@ -62,6 +63,35 @@ export const getAllJobs = async (req, res) => {
       userId: user._id,
     };
   }
+
+  req.findParams = findParams;
+
+  next();
+};
+
+export const getAllJobs = async (req, res) => {
+  // const { user } = req;
+
+  // findParams will hold all find parameters (query stuff)
+  // let findParams = {};
+  let findParams = req.findParams || {};
+  // sortParams will hold all sort parameters
+  let sortParams = {};
+
+  // pagination
+  // const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
+  // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
+  // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
+
+  // console.log({ query: req.query });
+
+  // to list down jobs posted by a particular recruiter
+  // if (user.type === "recruiter" && req.query.myJobs) {
+  //   findParams = {
+  //     ...findParams,
+  //     userId: user._id,
+  //   };
+  // }
 
   // to filter job  based on title using the query passed.
   if (req.query.q) {

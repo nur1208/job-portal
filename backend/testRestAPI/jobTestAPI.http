@@ -40,4 +40,4 @@ Authorization: Bearer {{recruiterToken}}
 ###
 
 
-GET {{Host}}:{{port}}/{{route}}/getTotalNumber
+GET {{Host}}:{{port}}/{{route}}/homepage

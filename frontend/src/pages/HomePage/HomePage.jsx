@@ -10,7 +10,9 @@ export const HomePage = () => {
   return (
     <HomePageWrapper id="homepage">
       <MainSearchContainer setJobs={setJobs} />
-      <Home {...homeProps} />
+      <section>
+        <Home {...homeProps} />
+      </section>
     </HomePageWrapper>
   );
 };

@@ -1,11 +1,23 @@
 import styled from "styled-components";
 
-export const Box = styled.div`
+export const Box = styled.footer`
   padding: 80px 60px;
   background: black;
-  position: absolute;
+  /* position: absolute; */
+  /* padding: 10px 10px 0px 10px; */
+  bottom: 0;
+  /* width: 100%; */
+  /* position: absolute; */
   bottom: 0;
   width: 100%;
+  &::after {
+    clear: both;
+  }
+  &::before,
+  &::after {
+    display: table;
+    content: "";
+  }
 
   @media (max-width: 1000px) {
     padding: 70px 30px;
