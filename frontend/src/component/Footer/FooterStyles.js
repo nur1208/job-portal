@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Box = styled.footer`
   padding: 80px 60px;
-  background: black;
+  background: #000033;
   /* position: absolute; */
   /* padding: 10px 10px 0px 10px; */
   bottom: 0;
@@ -64,7 +64,7 @@ export const FooterLink = styled.a`
 
 export const Heading = styled.p`
   font-size: 24px;
-  color: #fff;
+  color: white;
   margin-bottom: 40px;
   font-weight: bold;
 `;
