@@ -56,7 +56,7 @@ export const signUp = async (req, res) => {
   } catch (error) {
     console.log({ error });
 
-    res.status(400).json({ error });
+    res.status(400).json({ error, message: error.message });
   }
 };
 
@@ -112,14 +112,12 @@ export const isJWTAuth = async (req, res, next) => {
   if (!token || token === "undefined") {
     res.status(401).json({
       status: "fall",
-      message:
-        "you are not logged in! Please log in to get access",
+      message: "you are not logged in! Please log in to get access",
     });
 
     console.log({
       status: "fall",
-      message:
-        "you are not logged in! Please log in to get access",
+      message: "you are not logged in! Please log in to get access",
     });
 
     return;
