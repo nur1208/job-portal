@@ -91,7 +91,7 @@ const JobTile = (props) => {
   };
 
   const handleDelete = () => {
-    console.log(job._id);
+    console.log(job.title.match(/\d/));
     axios
       .delete(`${apiList.jobs}/${job._id}`, {
         headers: {
@@ -119,6 +119,15 @@ const JobTile = (props) => {
   };
 
   const handleJobUpdate = () => {
+    if (jobDetails.title.match(/\d/g)) {
+      setPopup({
+        open: true,
+        severity: "error",
+        message: "title should not contain a number",
+      });
+      return;
+    }
+
     axios
       .put(`${apiList.jobs}/${job._id}`, jobDetails, {
         headers: {
@@ -141,7 +150,7 @@ const JobTile = (props) => {
           severity: "error",
           message: err.response.data.message,
         });
-        handleCloseUpdate();
+        // handleCloseUpdate();
       });
   };
 
@@ -242,10 +251,7 @@ const JobTile = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography
-            variant="h4"
-            style={{ marginBottom: "10px" }}
-          >
+          <Typography variant="h4" style={{ marginBottom: "10px" }}>
             Are you sure?
           </Typography>
           <Grid container justify="center" spacing={5}>
@@ -288,10 +294,7 @@ const JobTile = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography
-            variant="h4"
-            style={{ marginBottom: "10px" }}
-          >
+          <Typography variant="h4" style={{ marginBottom: "10px" }}>
             Update Details
           </Typography>
           <Grid
@@ -300,6 +303,33 @@ const JobTile = (props) => {
             spacing={3}
             style={{ margin: "10px" }}
           >
+            <Grid item>
+              <TextField
+                label="Title"
+                type="text"
+                variant="outlined"
+                value={jobDetails.title}
+                onChange={(event) => {
+                  handleInput("title", event.target.value);
+                }}
+                required
+                InputProps={{ inputProps: { min: 1 } }}
+                fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                label="Salary"
+                type="number"
+                variant="outlined"
+                value={jobDetails.salary}
+                onChange={(event) => {
+                  handleInput("salary", event.target.value);
+                }}
+                InputProps={{ inputProps: { min: 1 } }}
+                fullWidth
+              />
+            </Grid>
             <Grid item>
               <TextField
                 label="Application Deadline"
@@ -659,8 +689,7 @@ const FilterPopup = (props) => {
                           ...searchOptions.sort,
                           duration: {
                             ...searchOptions.sort.duration,
-                            desc: !searchOptions.sort.duration
-                              .desc,
+                            desc: !searchOptions.sort.duration.desc,
                           },
                         },
                       });

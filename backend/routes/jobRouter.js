@@ -11,11 +11,12 @@ import {
   getTotalJobsNumber,
   getAllJobsVisiter,
   myJob,
+  updateJob,
 } from "../controllers/jobController.js";
 
 const jobRouter = express.Router();
 
-jobRouter.get("/getTotalNumber", getTotalJobsNumber);
+// jobRouter.get("/getTotalNumber", getTotalJobsNumber);
 
 jobRouter.get("/homepage", getAllJobs);
 
@@ -28,7 +29,7 @@ jobRouter
   // TODO make one for everybody
   .get(myJob, getAllJobs);
 
-jobRouter.route("/:id").delete(deleteJob);
+jobRouter.route("/:id").delete(deleteJob).put(updateJob);
 
 // TODO  refactor applications routes
 jobRouter

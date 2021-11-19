@@ -317,6 +317,28 @@ export const deleteJob = async (req, res) => {
   });
 };
 
+export const updateJob = async (req, res) => {
+  const { title, salary, deadline, maxApplicants, maxPositions } =
+    req.body;
+
+  try {
+    const job = await Job.findById(req.params.id);
+
+    job.title = title;
+    job.salary = salary;
+    job.deadline = deadline;
+    job.maxApplicants = maxApplicants;
+    job.maxPositions = maxPositions;
+
+    const updatedJob = await job.save();
+    // console.log(job);
+    // console.log({ title, salary, deadline, maxApplicants, maxPositions });
+    res.send({ updatedJob, message: "Job updated successfully" });
+  } catch (error) {
+    res.status(404).send({ err: error, message: error.message });
+  }
+};
+
 export const applyForJob = async (req, res) => {
   const { user } = req;
   if (user.type !== "applicant") {

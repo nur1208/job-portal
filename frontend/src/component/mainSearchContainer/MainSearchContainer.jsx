@@ -23,16 +23,16 @@ export const MainSearchContainer = ({ setJobs }) => {
     setJobs(data.data);
   };
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        `http://localhost:5050/api/v1/jobs/getTotalNumber`
-      );
+  // useEffect(() => {
+  //   (async () => {
+  //     const { data } = await axios.get(
+  //       `http://localhost:5050/api/v1/jobs/getTotalNumber`
+  //     );
 
-      setTotalJobs(data.length);
-      // console.log({ length: data.length });
-    })();
-  }, []);
+  //     setTotalJobs(data.length);
+  //     // console.log({ length: data.length });
+  //   })();
+  // }, []);
 
   return (
     <Wrapper
@@ -46,7 +46,8 @@ export const MainSearchContainer = ({ setJobs }) => {
           // title="Jobs, careers, employment and recruitment at Reed.co.uk"
           >
             <span class="h1-slogan">
-              Jobs, careers, employment and recruitment at Reed.co.uk
+              Jobs, careers, employment and recruitment at
+              Reed.co.uk
             </span>
           </span>
         </div>
@@ -63,7 +64,11 @@ export const MainSearchContainer = ({ setJobs }) => {
             <p class="job-counter job-counter-mobile">
               {/* Search {totalJobs} new jobs - 11,212 added in the last 24 hours */}
             </p>
-            <div role="group" aria-labelled-by="find-job" class="collector">
+            <div
+              role="group"
+              aria-labelled-by="find-job"
+              class="collector"
+            >
               <div
                 class="top-section horizontal-form"
                 data-bind="attr: {class: 'top-section horizontal-form' + (twoStepsSearchEnabled() ? ' twoStepsSearchEnabled' : '')}"
@@ -94,7 +99,9 @@ export const MainSearchContainer = ({ setJobs }) => {
                         position: "relative",
                         verticalAlign: "top",
                       }}
-                      onChange={(e) => setSearchInput(e.target.value)}
+                      onChange={(e) =>
+                        setSearchInput(e.target.value)
+                      }
                     />
                     <pre
                       aria-hidden="true"
@@ -140,7 +147,11 @@ export const MainSearchContainer = ({ setJobs }) => {
                   style={{ display: "none" }}
                 >
                   <label for="proximity">Distance</label>
-                  <select id="proximity" name="proximity" class="form-control">
+                  <select
+                    id="proximity"
+                    name="proximity"
+                    class="form-control"
+                  >
                     <option value="0">0 miles</option>
                     <option value="1">1 mile</option>
                     <option value="3">3 miles</option>
