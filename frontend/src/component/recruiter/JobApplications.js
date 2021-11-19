@@ -187,8 +187,7 @@ const FilterPopup = (props) => {
                   <Checkbox
                     name="name"
                     checked={
-                      searchOptions.sort["jobApplicant.name"]
-                        .status
+                      searchOptions.sort["jobApplicant.name"].status
                     }
                     onChange={(event) =>
                       setSearchOptions({
@@ -267,8 +266,7 @@ const FilterPopup = (props) => {
                         sort: {
                           ...searchOptions.sort,
                           dateOfApplication: {
-                            ...searchOptions.sort
-                              .dateOfApplication,
+                            ...searchOptions.sort.dateOfApplication,
                             status: event.target.checked,
                           },
                         },
@@ -293,8 +291,7 @@ const FilterPopup = (props) => {
                         sort: {
                           ...searchOptions.sort,
                           dateOfApplication: {
-                            ...searchOptions.sort
-                              .dateOfApplication,
+                            ...searchOptions.sort.dateOfApplication,
                             desc: !searchOptions.sort
                               .dateOfApplication.desc,
                           },
@@ -782,7 +779,7 @@ const ApplicationTile = (props) => {
               color="primary"
               onClick={() => getResume()}
             >
-              Download Resume
+              View Resume
             </Button>
           </Grid>
           <Grid item container xs>
