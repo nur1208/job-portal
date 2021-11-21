@@ -51,7 +51,7 @@ export const signUp = async (req, res) => {
       });
     } catch (error) {
       await newUser.delete();
-      res.status(400).json({ error });
+      res.status(400).json({ error, message: error.message });
     }
   } catch (error) {
     console.log({ error });
@@ -93,7 +93,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({ ...info, token: accessToken });
   } catch (err) {
-    res.status(500).send({ err });
+    res.status(500).send({ err,message: err.message });
   }
 };
 

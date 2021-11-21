@@ -233,7 +233,7 @@ const Signup = (props) => {
           setPopup({
             open: true,
             severity: "success",
-            message: "Logged in successfully",
+            message: "Registered successfully",
           });
           console.log(response);
         })
